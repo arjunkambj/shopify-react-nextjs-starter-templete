@@ -1,6 +1,7 @@
 'use client';
 
 import { Icon } from '@iconify/react';
+import { Input } from '@heroui/react';
 import Form from 'next/form';
 import { useSearchParams } from 'next/navigation';
 
@@ -9,18 +10,22 @@ export default function Search() {
 
   return (
     <Form action="/search" className="w-max-[550px] relative w-full lg:w-80 xl:w-full">
-      <input
+      <Input
         key={searchParams?.get('q')}
-        type="text"
         name="q"
+        type="text"
         placeholder="Search for products..."
         autoComplete="off"
         defaultValue={searchParams?.get('q') || ''}
-        className="text-md w-full rounded-lg border bg-white px-4 py-2 text-black placeholder:text-neutral-500 md:text-sm dark:border-neutral-800 dark:bg-transparent dark:text-white dark:placeholder:text-neutral-400"
+        startContent={<Icon icon="heroicons-outline:magnifying-glass" className="h-4 text-neutral-500" aria-hidden="true" />}
+        variant="bordered"
+        radius="lg"
+        size="md"
+        classNames={{
+          input: 'text-black dark:text-white placeholder:text-neutral-500 dark:placeholder:text-neutral-400',
+          inputWrapper: 'bg-white dark:bg-transparent',
+        }}
       />
-      <div className="absolute right-0 top-0 mr-3 flex h-full items-center">
-        <Icon icon="heroicons-outline:magnifying-glass" className="h-4" aria-hidden="true" />
-      </div>
     </Form>
   );
 }
@@ -28,13 +33,14 @@ export default function Search() {
 export function SearchSkeleton() {
   return (
     <form className="w-max-[550px] relative w-full lg:w-80 xl:w-full">
-      <input
+      <Input
+        isDisabled
         placeholder="Search for products..."
-        className="w-full rounded-lg border bg-white px-4 py-2 text-sm text-black placeholder:text-neutral-500 dark:border-neutral-800 dark:bg-transparent dark:text-white dark:placeholder:text-neutral-400"
+        startContent={<Icon icon="heroicons-outline:magnifying-glass" className="h-4 text-neutral-500" aria-hidden="true" />}
+        variant="bordered"
+        radius="lg"
+        size="sm"
       />
-      <div className="absolute right-0 top-0 mr-3 flex h-full items-center">
-        <Icon icon="heroicons-outline:magnifying-glass" className="h-4" aria-hidden="true" />
-      </div>
     </form>
   );
 }

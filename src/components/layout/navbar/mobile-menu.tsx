@@ -1,11 +1,11 @@
 'use client';
 
-import { Dialog, Transition } from '@headlessui/react';
 import { Icon } from '@iconify/react';
+import { Button, Drawer, DrawerBody, DrawerContent, DrawerHeader } from '@heroui/react';
 import Link from 'next/link';
 import type { Route } from 'next';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { Fragment, Suspense, useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { Menu } from '@/lib/shopify/types';
 import Search, { SearchSkeleton } from './search';
 
@@ -14,7 +14,6 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
   const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const openMobileMenu = () => setIsOpen(true);
-  const closeMobileMenu = () => setIsOpen(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -32,45 +31,31 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
 
   return (
     <>
-      <button
-        onClick={openMobileMenu}
+      <Button
+        onPress={openMobileMenu}
         aria-label="Open mobile menu"
-      className="flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors md:hidden dark:border-neutral-700 dark:text-white"
-    >
-      <Icon icon="heroicons-outline:bars-3" className="h-4" aria-hidden="true" />
-    </button>
-      <Transition show={isOpen}>
-        <Dialog onClose={closeMobileMenu} className="relative z-50">
-          <Transition.Child
-            as={Fragment}
-            enter="transition-all ease-in-out duration-300"
-            enterFrom="opacity-0 backdrop-blur-none"
-            enterTo="opacity-100 backdrop-blur-[.5px]"
-            leave="transition-all ease-in-out duration-200"
-            leaveFrom="opacity-100 backdrop-blur-[.5px]"
-            leaveTo="opacity-0 backdrop-blur-none"
-          >
-            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-          </Transition.Child>
-          <Transition.Child
-            as={Fragment}
-            enter="transition-all ease-in-out duration-300"
-            enterFrom="translate-x-[-100%]"
-            enterTo="translate-x-0"
-            leave="transition-all ease-in-out duration-200"
-            leaveFrom="translate-x-0"
-            leaveTo="translate-x-[-100%]"
-          >
-            <Dialog.Panel className="fixed bottom-0 left-0 right-0 top-0 flex h-full w-full flex-col bg-white pb-6 dark:bg-black">
-            <div className="p-4">
-              <button
-                className="mb-4 flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors dark:border-neutral-700 dark:text-white"
-                onClick={closeMobileMenu}
-                aria-label="Close mobile menu"
-              >
-                <Icon icon="heroicons-outline:x-mark" className="h-6" aria-hidden="true" />
-              </button>
-
+        isIconOnly
+        variant="bordered"
+        className="md:hidden border-neutral-200 dark:border-neutral-700 text-black dark:text-white h-11 w-11"
+      >
+        <Icon icon="heroicons-outline:bars-3" className="h-4" aria-hidden="true" />
+      </Button>
+      <Drawer isOpen={isOpen} onOpenChange={setIsOpen} placement="left" size="full">
+        <DrawerContent className="bg-white dark:bg-black">
+          {(onClose) => (
+            <>
+              <DrawerHeader className="p-4">
+                <Button
+                  isIconOnly
+                  variant="bordered"
+                  className="border-neutral-200 dark:border-neutral-700 text-black dark:text-white h-11 w-11"
+                  onPress={onClose}
+                  aria-label="Close mobile menu"
+                >
+                  <Icon icon="heroicons-outline:x-mark" className="h-6" aria-hidden="true" />
+                </Button>
+              </DrawerHeader>
+              <DrawerBody className="px-4 pb-6">
                 <div className="mb-4 w-full">
                   <Suspense fallback={<SearchSkeleton />}>
                     <Search />
@@ -83,18 +68,18 @@ export default function MobileMenu({ menu }: { menu: Menu[] }) {
                         className="py-2 text-xl text-black transition-colors hover:text-neutral-500 dark:text-white"
                         key={item.title}
                       >
-                        <Link href={item.path as unknown as Route} prefetch={true} onClick={closeMobileMenu}>
+                        <Link href={item.path as unknown as Route} prefetch={true} onClick={onClose}>
                           {item.title}
                         </Link>
                       </li>
                     ))}
                   </ul>
                 ) : null}
-              </div>
-            </Dialog.Panel>
-          </Transition.Child>
-        </Dialog>
-      </Transition>
+              </DrawerBody>
+            </>
+          )}
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }

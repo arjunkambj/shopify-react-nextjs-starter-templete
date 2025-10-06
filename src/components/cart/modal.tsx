@@ -1,7 +1,7 @@
 'use client';
 
 import clsx from 'clsx';
-import { Dialog, Transition } from '@headlessui/react';
+import { Button, Drawer, DrawerBody, DrawerContent, DrawerHeader } from '@heroui/react';
 import { Icon } from '@iconify/react';
 import LoadingDots from '@/components/loading-dots';
 import Price from '@/components/price';
@@ -10,7 +10,7 @@ import { createUrl } from '@/lib/utils';
 import Image from 'next/image';
 import Link from 'next/link';
 import type { Route } from 'next';
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useFormStatus } from 'react-dom';
 import { createCartAndSetCookie, redirectToCheckout } from './actions';
 import { useCart } from './cart-context';
@@ -50,38 +50,18 @@ export default function CartModal() {
 
   return (
     <>
-      <button aria-label="Open cart" onClick={openCart}>
+      <Button aria-label="Open cart" onPress={openCart} variant="light" className="min-w-0 p-0">
         <OpenCart quantity={cart?.totalQuantity} />
-      </button>
-      <Transition show={isOpen}>
-        <Dialog onClose={closeCart} className="relative z-50">
-          <Transition.Child
-            as={Fragment}
-            enter="transition-all ease-in-out duration-300"
-            enterFrom="opacity-0 backdrop-blur-none"
-            enterTo="opacity-100 backdrop-blur-[.5px]"
-            leave="transition-all ease-in-out duration-200"
-            leaveFrom="opacity-100 backdrop-blur-[.5px]"
-            leaveTo="opacity-0 backdrop-blur-none"
-          >
-            <div className="fixed inset-0 bg-black/30" aria-hidden="true" />
-          </Transition.Child>
-          <Transition.Child
-            as={Fragment}
-            enter="transition-all ease-in-out duration-300"
-            enterFrom="translate-x-full"
-            enterTo="translate-x-0"
-            leave="transition-all ease-in-out duration-200"
-            leaveFrom="translate-x-0"
-            leaveTo="translate-x-full"
-          >
-            <Dialog.Panel className="fixed bottom-0 right-0 top-0 flex h-full w-full flex-col border-l border-neutral-200 bg-white/80 p-6 text-black backdrop-blur-xl md:w-[390px] dark:border-neutral-700 dark:bg-black/80 dark:text-white">
-              <div className="flex items-center justify-between">
+      </Button>
+      <Drawer isOpen={isOpen} onOpenChange={setIsOpen} placement="right">
+        <DrawerContent className="border-l border-neutral-200 dark:border-neutral-700">
+          {(onClose) => (
+            <>
+              <DrawerHeader className="flex items-center justify-between p-6">
                 <p className="text-lg font-semibold">My Cart</p>
-                <button aria-label="Close cart" onClick={closeCart}>
-                  <CloseCart />
-                </button>
-              </div>
+                <CloseCart onPress={onClose} />
+              </DrawerHeader>
+              <DrawerBody className="p-6 pt-0">
 
               {!cart || cart.lines.length === 0 ? (
                 <div className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
@@ -221,26 +201,26 @@ export default function CartModal() {
                   </form>
                 </div>
               )}
-            </Dialog.Panel>
-          </Transition.Child>
-        </Dialog>
-      </Transition>
+              </DrawerBody>
+            </>
+          )}
+        </DrawerContent>
+      </Drawer>
     </>
   );
 }
 
-function CloseCart({ className }: { className?: string }) {
+function CloseCart({ className, onPress }: { className?: string; onPress?: () => void }) {
   return (
-    <div className="relative flex h-11 w-11 items-center justify-center rounded-md border border-neutral-200 text-black transition-colors dark:border-neutral-700 dark:text-white">
-      <Icon
-        icon="heroicons-outline:x-mark"
-        className={clsx(
-          'h-6 transition-all ease-in-out hover:scale-110',
-          className
-        )}
-        aria-hidden="true"
-      />
-    </div>
+    <Button
+      isIconOnly
+      variant="bordered"
+      className={clsx('h-11 w-11 border-neutral-200 dark:border-neutral-700 text-black dark:text-white', className)}
+      onPress={onPress}
+      aria-label="Close cart"
+    >
+      <Icon icon="heroicons-outline:x-mark" className="h-6" aria-hidden="true" />
+    </Button>
   );
 }
 
@@ -248,12 +228,14 @@ function CheckoutButton() {
   const { pending } = useFormStatus();
 
   return (
-    <button
-      className="block w-full rounded-full bg-blue-600 p-3 text-center text-sm font-medium text-white opacity-90 hover:opacity-100"
+    <Button
+      className="block w-full rounded-full"
+      color="primary"
       type="submit"
-      disabled={pending}
+      isDisabled={pending}
+      isLoading={pending}
     >
       {pending ? <LoadingDots className="bg-white" /> : 'Proceed to Checkout'}
-    </button>
+    </Button>
   );
 }

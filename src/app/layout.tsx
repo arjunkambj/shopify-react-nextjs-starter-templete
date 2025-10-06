@@ -1,12 +1,10 @@
 import { CartProvider } from "@/components/cart/cart-context";
 import { HeroProvider } from "@/components/HeroUIProvider";
 import { Navbar } from "@/components/layout/navbar";
-import { WelcomeToast } from "@/components/welcome-toast";
 import { getCart } from "@/lib/shopify";
 import { baseUrl } from "@/lib/utils";
 import { Poppins } from "next/font/google";
 import { ReactNode } from "react";
-import { Toaster } from "sonner";
 import "../styles/globals.css";
 
 const { SITE_NAME } = process.env;
@@ -44,11 +42,7 @@ export default async function RootLayout({
         <HeroProvider>
           <CartProvider cartPromise={cart}>
             <Navbar />
-            <main>
-              {children}
-              <Toaster closeButton />
-              <WelcomeToast />
-            </main>
+            <main>{children}</main>
           </CartProvider>
         </HeroProvider>
       </body>
