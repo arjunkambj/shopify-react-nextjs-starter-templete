@@ -99,10 +99,46 @@ Notable pieces in `src/components/`:
 
 ## Deployment
 
+### Vercel (with Shopify Integration)
+
+The easiest way to launch is with Vercel and the Shopify integration.
+
+1) Install the integration
+- Open the Vercel + Shopify guide: https://vercel.com/docs/integrations/ecommerce/shopify
+- Click Install and choose your Vercel account/team and this project.
+- Connect your Shopify store when prompted (you’ll install a Shopify app during the flow).
+
+2) Configure environment variables (Project Settings → Environment Variables)
+- `SHOPIFY_STORE_DOMAIN` – e.g. `your-store.myshopify.com`
+- `SHOPIFY_STOREFRONT_ACCESS_TOKEN` – from your Shopify custom app
+- `SHOPIFY_REVALIDATION_SECRET` – any random string you also use in webhooks
+
+Add these for Production and Preview. If the integration auto-creates them, verify the values.
+
+3) Build & runtime settings (Project Settings → Build & Development Settings)
+- Framework preset: Next.js
+- Build command: `next build` (default)
+- Output: Automatic (Next.js)
+- Node.js Version: 18 or 20
+
+4) Deploy
+- Push to your main branch or click Deploy in Vercel. After the first deployment, open the URL to verify pages, product lists, and cart.
+
+5) Revalidation (ISR) via Shopify webhooks
+- In Shopify Admin, add webhooks (e.g., product/create, product/update, collection/update) pointing to:
+  - `https://<your-domain>/api/revalidate?secret=YOUR_SHOPIFY_REVALIDATION_SECRET`
+- Ensure the query secret matches `SHOPIFY_REVALIDATION_SECRET` in Vercel. This lets the site refresh cached pages after catalog changes.
+
+Notes
+- Remote images from `cdn.shopify.com` are already allowed in `next.config.ts`.
+- If you use a custom domain, set it up in Vercel after the first deploy.
+
+### Other platforms
+
 You can deploy this app to any platform that supports Node.js and Next.js. A typical flow is:
 
 1. Build the app: `bun build`
-2. Run the server: `bun  start`
+2. Run the server: `bun start`
 3. Configure environment variables on your hosting platform.
 
 Make sure your webhook (if configured) calls `/api/revalidate?secret=YOUR_SECRET` to refresh cached pages after product changes.
