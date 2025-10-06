@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "@headlessui/react": "^2.2.9",
-    "@iconify/react": "^5.2.1",
+    "@heroui/react": "^2.8.5",
+    "@iconify/react": "^6.0.2",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.23.22",
     "next": "^15.5.4",
     "react": "19.0.0",
     "react-dom": "19.0.0",

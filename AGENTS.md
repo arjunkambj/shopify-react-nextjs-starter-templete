@@ -26,6 +26,11 @@ Environment: copy `.env.example` → `.env.local` and set Shopify keys before `d
 - Hooks: `useXyz` naming; avoid `any`; use `@/*` path alias (see `tsconfig.json`).
 - Linting: follow Next.js + TypeScript rules from `eslint.config.mjs`. Fix warnings before PR.
 
+### UI Libraries
+
+- Icons: Use `@iconify/react`'s `Icon` component for all icons. Prefer `import { Icon } from '@iconify/react'` and avoid inline SVGs unless there's a strong reason (custom one-off or performance-critical case).
+- HeroUI: Import all components and utilities from `@heroui/react` only (no deep or subpath imports). The app is wrapped by `HeroProvider` from `src/components/HeroUIProvider.tsx`; keep that pattern for consistent theming and provider setup.
+
 ## Testing Guidelines
 
 - No test framework is bundled yet. When adding tests:

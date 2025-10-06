@@ -1,4 +1,5 @@
 import { CartProvider } from "@/components/cart/cart-context";
+import { HeroProvider } from "@/components/HeroUIProvider";
 import { Navbar } from "@/components/layout/navbar";
 import { WelcomeToast } from "@/components/welcome-toast";
 import { getCart } from "@/lib/shopify";
@@ -40,14 +41,16 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={poppins.variable}>
-        <CartProvider cartPromise={cart}>
-          <Navbar />
-          <main>
-            {children}
-            <Toaster closeButton />
-            <WelcomeToast />
-          </main>
-        </CartProvider>
+        <HeroProvider>
+          <CartProvider cartPromise={cart}>
+            <Navbar />
+            <main>
+              {children}
+              <Toaster closeButton />
+              <WelcomeToast />
+            </main>
+          </CartProvider>
+        </HeroProvider>
       </body>
     </html>
   );

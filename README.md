@@ -13,7 +13,7 @@ This is a simple, production-ready starter for building a fast Shopify storefron
 
 - Next.js 15 App Router + React 19.
 - Shopify Storefront API (GraphQL) via `lib/shopify`.
-- Tailwind CSS 4, Headless UI, Iconify, and Sonner.
+- Tailwind CSS 4, Headless UI, Iconify, HeroUI, and Sonner.
 - TypeScript and ESLint; Turbopack for local dev.
 
 ## Quick Start
@@ -96,6 +96,13 @@ Notable pieces in `src/components/`:
 
 - Global stylesheet lives at `src/styles/globals.css` and is imported from `src/app/layout.tsx` using a relative path:
   - `import '../styles/globals.css'`
+
+### UI Libraries
+
+- Icons: Use `@iconify/react` and its `Icon` component for all icons.
+  - Example: `import { Icon } from '@iconify/react'`
+- HeroUI: Import components/utilities from `@heroui/react` (no deep imports).
+  - The app root is wrapped by `HeroProvider` (`src/components/HeroUIProvider.tsx`).
 
 ## Deployment
 
