@@ -1,16 +1,19 @@
-'use client';
+"use client";
 
-import { Icon } from '@iconify/react';
-import { removeItem } from '@/components/cart/actions';
-import type { CartItem } from '@/lib/shopify/types';
-import { useActionState } from 'react';
+import { removeItem } from "@/components/cart/actions";
+import type { CartItem } from "@/lib/shopify/types";
+import { Icon } from "@iconify/react";
+import { useActionState } from "react";
 
 export function DeleteItemButton({
   item,
-  optimisticUpdate
+  optimisticUpdate,
 }: {
   item: CartItem;
-  optimisticUpdate: (merchandiseId: string, action: 'delete' | 'plus' | 'minus') => void;
+  optimisticUpdate: (
+    merchandiseId: string,
+    action: "delete" | "plus" | "minus"
+  ) => void;
 }) {
   const [message, formAction] = useActionState(removeItem, null);
   const merchandiseId = item.merchandise.id;
@@ -19,18 +22,18 @@ export function DeleteItemButton({
   return (
     <form
       action={async () => {
-        optimisticUpdate(merchandiseId, 'delete');
+        optimisticUpdate(merchandiseId, "delete");
         removeItemAction();
       }}
     >
       <button
         type="submit"
         aria-label="Remove cart item"
-        className="flex h-[24px] w-[24px] items-center justify-center rounded-full bg-neutral-500"
+        className="flex h-[20px] w-[20px] items-center justify-center rounded-full bg-default-700"
       >
         <Icon
           icon="heroicons-outline:x-mark"
-          className="mx-[1px] h-4 w-4 text-white dark:text-black"
+          className="mx-[1px] h-3 w-3 text-default-50"
           aria-hidden="true"
         />
       </button>
