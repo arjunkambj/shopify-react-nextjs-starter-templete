@@ -1,11 +1,11 @@
-import Collections from '@/components/layout/search/collections';
-import FilterList from '@/components/layout/search/filter';
-import { sorting } from '@/lib/constants';
-import ChildrenWrapper from './children-wrapper';
-import { Suspense } from 'react';
+import Collections from "@/components/layout/collection/collections";
+import FilterList from "@/components/layout/collection/filter";
+import { sorting } from "@/lib/constants";
+import { Suspense } from "react";
+import ChildrenWrapper from "./children-wrapper";
 
 export default function SearchLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {

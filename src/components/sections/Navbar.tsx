@@ -1,7 +1,74 @@
-export default function Navbar() {
+"use client";
+
+import CartModal from "@/components/cart/modal";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
+import type { Route } from "next";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { Suspense } from "react";
+import Search, { SearchSkeleton } from "../layout/SearchModel";
+
+export const AcmeLogo = () => {
   return (
-    <nav>
-      <p>Navbar</p>
-    </nav>
+    <svg fill="none" height="36" viewBox="0 0 32 32" width="36">
+      <path
+        clipRule="evenodd"
+        d="M17.6482 10.1305L15.8785 7.02583L7.02979 22.5499H10.5278L17.6482 10.1305ZM19.8798 14.0457L18.11 17.1983L19.394 19.4511H16.8453L15.1056 22.5499H24.7272L19.8798 14.0457Z"
+        fill="currentColor"
+        fillRule="evenodd"
+      />
+    </svg>
+  );
+};
+
+export default function App() {
+  const pathname = usePathname();
+  const primaryLinks: Array<{ label: string; href: Route; current?: boolean }> =
+    [
+      { label: "Home", href: "/" },
+      { label: "Shop All", href: "/search" },
+      { label: "Contact", href: "/contact" },
+      { label: "About", href: "/about" },
+    ];
+
+  const isActive = (target: Route) => {
+    if (!pathname) return false;
+    if (target === "/") return pathname === "/";
+    return pathname.startsWith(target);
+  };
+
+  return (
+    <Navbar
+      className="w-full border-b px-6 py-4"
+      maxWidth="full"
+      position="static"
+    >
+      <NavbarContent className="hidden gap-4 sm:flex" justify="start">
+        {primaryLinks.map(({ label, href }) => (
+          <NavbarItem isActive={isActive(href)} key={label}>
+            <Link
+              aria-current={isActive(href) ? "page" : undefined}
+              href={href}
+            >
+              {label}
+            </Link>
+          </NavbarItem>
+        ))}
+      </NavbarContent>
+      <NavbarBrand className="justify-center">
+        <AcmeLogo />
+        <p className="font-bold text-inherit">ACME</p>
+      </NavbarBrand>
+      <NavbarContent className="gap-2" justify="end">
+        <NavbarItem>
+          <Suspense fallback={<SearchSkeleton />}>
+            <Search />
+          </Suspense>
+        </NavbarItem>
+        <NavbarItem>
+          <CartModal />
+        </NavbarItem>
+      </NavbarContent>
+    </Navbar>
   );
 }

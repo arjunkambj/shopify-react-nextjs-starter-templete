@@ -1,19 +1,20 @@
 import { CartProvider } from "@/components/cart/cart-context";
 import { HeroProvider } from "@/components/HeroUIProvider";
-import { Navbar } from "@/components/layout/navbar";
 import AnnouncementBar from "@/components/sections/AnnouncementBar";
+import AppNavbar from "@/components/sections/Navbar";
 import { getCart } from "@/lib/shopify";
 import { baseUrl } from "@/lib/utils";
-import { Inter } from "next/font/google";
+import { Poppins } from "next/font/google";
 import { ReactNode } from "react";
 import "../styles/globals.css";
 
 const { SITE_NAME } = process.env;
 
-const inter = Inter({
+const poppins = Poppins({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-  variable: "--font-dm-sans",
+  variable: "--font-poppins",
+  display: "swap",
 });
 
 export const metadata = {
@@ -38,11 +39,11 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={`${poppins.className} ${poppins.variable}`}>
         <HeroProvider>
           <CartProvider cartPromise={cart}>
             <AnnouncementBar />
-            <Navbar />
+            <AppNavbar />
             <main>{children}</main>
           </CartProvider>
         </HeroProvider>
