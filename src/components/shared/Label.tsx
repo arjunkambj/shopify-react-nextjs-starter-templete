@@ -1,5 +1,5 @@
 import clsx from 'clsx';
-import Price from './price';
+import Price from './Price';
 
 const Label = ({
   title,
@@ -18,10 +18,10 @@ const Label = ({
         'lg:px-20 lg:pb-[35%]': position === 'center'
       })}
     >
-      <div className="flex items-center rounded-full border bg-white/70 p-1 text-xs font-semibold text-black backdrop-blur-md dark:border-neutral-800 dark:bg-black/70 dark:text-white">
+      <div className="flex items-center rounded-full border border-border bg-background/70 p-1 text-xs font-semibold text-foreground backdrop-blur-md">
         <h3 className="mr-4 line-clamp-2 grow pl-2 leading-none tracking-tight">{title}</h3>
         <Price
-          className="flex-none rounded-full bg-blue-600 p-2 text-white"
+          className="flex-none rounded-full bg-primary p-2 text-primary-foreground"
           amount={amount}
           currencyCode={currencyCode}
           currencyCodeClassName="hidden @[275px]/label:inline"

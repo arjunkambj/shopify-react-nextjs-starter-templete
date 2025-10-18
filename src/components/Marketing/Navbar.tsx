@@ -1,12 +1,12 @@
 "use client";
 
 import CartModal from "@/components/cart/modal";
+import SearchModal, { SearchSkeleton } from "./SearchModal";
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@heroui/react";
 import type { Route } from "next";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Suspense } from "react";
-import Search, { SearchSkeleton } from "../layout/SearchModel";
 
 export const AcmeLogo = () => {
   return (
@@ -21,7 +21,7 @@ export const AcmeLogo = () => {
   );
 };
 
-export default function App() {
+export default function AppNavbar() {
   const pathname = usePathname();
   const primaryLinks: Array<{ label: string; href: Route; current?: boolean }> =
     [
@@ -49,6 +49,7 @@ export default function App() {
             <Link
               aria-current={isActive(href) ? "page" : undefined}
               href={href}
+              className="transition-colors hover:text-primary"
             >
               {label}
             </Link>
@@ -62,7 +63,7 @@ export default function App() {
       <NavbarContent className="gap-2" justify="end">
         <NavbarItem>
           <Suspense fallback={<SearchSkeleton />}>
-            <Search />
+            <SearchModal />
           </Suspense>
         </NavbarItem>
         <NavbarItem>

@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { GridTileImage } from "@/components/grid/tile";
+import { GridTileImage } from "@/components/shared/GridTile";
 
-import { Gallery } from "@/components/product/gallery";
-import { ProductProvider } from "@/components/product/product-context";
-import { ProductDescription } from "@/components/product/product-description";
+import { Gallery } from "@/components/Product/Gallery";
+import { ProductProvider } from "@/components/Product/ProductContext";
+import { ProductDescription } from "@/components/Product/ProductDescription";
 import { HIDDEN_PRODUCT_TAG } from "@/lib/constants";
 import { getProduct, getProductRecommendations } from "@/lib/shopify";
 import { Image } from "@/lib/shopify/types";
@@ -83,7 +83,7 @@ export default async function ProductPage(props: {
         }}
       />
       <div className="mx-auto max-w-7xl px-4">
-        <div className="flex flex-col rounded-lg border border-neutral-200 bg-white p-8 md:p-12 lg:flex-row lg:gap-8 dark:border-neutral-800 dark:bg-black">
+        <div className="flex flex-col rounded-lg border border-border bg-card p-8 md:p-12 lg:flex-row lg:gap-8">
           <div className="h-full w-full basis-full lg:basis-4/6">
             <Suspense
               fallback={
@@ -117,8 +117,8 @@ async function RelatedProducts({ id }: { id: string }) {
   if (!relatedProducts.length) return null;
 
   return (
-    <div className="py-8 ">
-      <h2 className="mb-4 text-2xl font-bold">Related Products</h2>
+    <div className="py-8">
+      <h2 className="mb-4 text-2xl font-bold text-foreground">Related Products</h2>
       <ul className="flex w-full gap-4 overflow-x-auto pt-1">
         {relatedProducts.map((product) => (
           <li

@@ -1,8 +1,8 @@
 'use client';
 
 import { Icon } from '@iconify/react';
-import { GridTileImage } from '@/components/grid/tile';
-import { useProduct, useUpdateURL } from '@/components/product/product-context';
+import { GridTileImage } from '@/components/shared/GridTile';
+import { useProduct, useUpdateURL } from './ProductContext';
 import Image from 'next/image';
 
 export function Gallery({ images }: { images: { src: string; altText: string }[] }) {
@@ -14,7 +14,7 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
   const previousImageIndex = imageIndex === 0 ? images.length - 1 : imageIndex - 1;
 
   const buttonClassName =
-    'h-full px-6 transition-all ease-in-out hover:scale-110 hover:text-black dark:hover:text-white flex items-center justify-center';
+    'h-full px-6 transition-all ease-in-out hover:scale-110 hover:text-foreground flex items-center justify-center';
 
   return (
     <form>
@@ -32,7 +32,7 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
 
         {images.length > 1 ? (
           <div className="absolute bottom-[15%] flex w-full justify-center">
-            <div className="mx-auto flex h-11 items-center rounded-full border border-white bg-neutral-50/80 text-neutral-500 backdrop-blur-sm dark:border-black dark:bg-neutral-900/80">
+            <div className="mx-auto flex h-11 items-center rounded-full border border-border bg-background/80 text-muted-foreground backdrop-blur-sm">
               <button
                 formAction={() => {
                   const newState = updateImage(previousImageIndex.toString());
@@ -41,9 +41,9 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
                 aria-label="Previous product image"
                 className={buttonClassName}
               >
-                <Icon icon="heroicons-outline:arrow-left" className="h-5" aria-hidden="true" />
+                <Icon icon="solar:alt-arrow-left-linear" width={20} aria-hidden="true" />
               </button>
-              <div className="mx-1 h-6 w-px bg-neutral-500"></div>
+              <div className="mx-1 h-6 w-px bg-border"></div>
               <button
                 formAction={() => {
                   const newState = updateImage(nextImageIndex.toString());
@@ -52,7 +52,7 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
                 aria-label="Next product image"
                 className={buttonClassName}
               >
-                <Icon icon="heroicons-outline:arrow-right" className="h-5" aria-hidden="true" />
+                <Icon icon="solar:alt-arrow-right-linear" width={20} aria-hidden="true" />
               </button>
             </div>
           </div>

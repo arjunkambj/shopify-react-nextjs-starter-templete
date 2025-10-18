@@ -2,8 +2,7 @@ import { getCollection, getCollectionProducts } from '@/lib/shopify';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import Grid from '@/components/grid';
-import ProductGridItems from '@/components/layout/product-grid-items';
+import ProductGrid from '@/components/Collections/ProductGrid';
 import { defaultSort, sorting } from '@/lib/constants';
 
 export async function generateMetadata(props: {
@@ -34,11 +33,11 @@ export default async function CategoryPage(props: {
   return (
     <section>
       {products.length === 0 ? (
-        <p className="py-3 text-lg">{`No products found in this collection`}</p>
+        <p className="py-3 text-lg text-muted-foreground">{`No products found in this collection`}</p>
       ) : (
-        <Grid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
-          <ProductGridItems products={products} />
-        </Grid>
+        <div className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          <ProductGrid products={products} />
+        </div>
       )}
     </section>
   );

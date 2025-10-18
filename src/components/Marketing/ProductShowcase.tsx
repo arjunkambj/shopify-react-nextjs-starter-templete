@@ -1,9 +1,9 @@
-import { GridTileImage } from '@/components/grid/tile';
+import { GridTileImage } from '@/components/shared/GridTile';
 import { getCollectionProducts, getProducts } from '@/lib/shopify';
 import type { Product } from '@/lib/shopify/types';
 import Link from 'next/link';
 
-function ThreeItemGridItem({
+function ProductShowcaseItem({
   item,
   size,
   priority
@@ -41,7 +41,7 @@ function ThreeItemGridItem({
   );
 }
 
-export async function ThreeItemGrid() {
+export async function ProductShowcase() {
   // Collections that start with `hidden-*` are hidden from the search page.
   const homepageItems = await getCollectionProducts({
     collection: 'hidden-homepage-featured-items'
@@ -69,9 +69,9 @@ export async function ThreeItemGrid() {
 
   return (
     <section className="mx-auto grid max-w-(--breakpoint-2xl) gap-4 px-4 pb-4 md:grid-cols-6 md:grid-rows-2 lg:max-h-[calc(100vh-200px)]">
-      <ThreeItemGridItem size="full" item={firstProduct} priority={true} />
-      <ThreeItemGridItem size="half" item={secondProduct} priority={true} />
-      <ThreeItemGridItem size="half" item={thirdProduct} />
+      <ProductShowcaseItem size="full" item={firstProduct} priority={true} />
+      <ProductShowcaseItem size="half" item={secondProduct} priority={true} />
+      <ProductShowcaseItem size="half" item={thirdProduct} />
     </section>
   );
 }

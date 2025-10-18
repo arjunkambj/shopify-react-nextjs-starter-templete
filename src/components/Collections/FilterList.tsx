@@ -1,7 +1,7 @@
 import { SortFilterItem } from '@/lib/constants';
 import { Suspense } from 'react';
-import FilterItemDropdown from './dropdown';
-import { FilterItem } from './item';
+import FilterDropdown from './FilterDropdown';
+import { FilterItem } from './FilterItem';
 
 export type ListItem = SortFilterItem | PathFilterItem;
 export type PathFilterItem = { title: string; path: string };
@@ -21,7 +21,7 @@ export default function FilterList({ list, title }: { list: ListItem[]; title?: 
     <>
       <nav>
         {title ? (
-          <h3 className="hidden text-xs text-neutral-500 md:block dark:text-neutral-400">
+          <h3 className="hidden text-xs text-muted-foreground md:block">
             {title}
           </h3>
         ) : null}
@@ -32,7 +32,7 @@ export default function FilterList({ list, title }: { list: ListItem[]; title?: 
         </ul>
         <ul className="md:hidden">
           <Suspense fallback={null}>
-            <FilterItemDropdown list={list} />
+            <FilterDropdown list={list} />
           </Suspense>
         </ul>
       </nav>

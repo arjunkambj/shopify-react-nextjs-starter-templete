@@ -12,23 +12,23 @@ import { Icon } from "@iconify/react";
 import Form from "next/form";
 import { useSearchParams } from "next/navigation";
 
-export default function App() {
+export default function SearchModal() {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const searchParams = useSearchParams();
 
   return (
     <>
       <Button isIconOnly size="sm" variant="light" onPress={onOpen}>
-        <Icon icon="solar:magnifer-linear" width={20} aria-hidden="true" />
+        <Icon icon="solar:magnifer-bold-duotone" width={20} aria-hidden="true" />
       </Button>
-      <Modal isOpen={isOpen} onOpenChange={onOpenChange}>
+      <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="lg" placement="top">
         <ModalContent>
-          {(onClose) => (
+          {() => (
             <>
-              <ModalBody>
+              <ModalBody className="py-6">
                 <Form
                   action="/search"
-                  className="w-max-[550px] relative w-full lg:w-80 xl:w-full"
+                  className="w-full"
                 >
                   <Input
                     key={searchParams?.get("q")}
@@ -36,21 +36,23 @@ export default function App() {
                     type="text"
                     placeholder="Search for products..."
                     autoComplete="off"
+                    autoFocus
                     defaultValue={searchParams?.get("q") || ""}
                     startContent={
                       <Icon
-                        icon="heroicons-outline:magnifying-glass"
-                        className="h-4 text-neutral-500"
+                        icon="solar:magnifer-linear"
+                        width={20}
+                        className="text-neutral-500"
                         aria-hidden="true"
                       />
                     }
                     variant="bordered"
                     radius="lg"
-                    size="md"
+                    size="lg"
                     classNames={{
                       input:
-                        "text-black dark:text-white placeholder:text-neutral-500 dark:placeholder:text-neutral-400",
-                      inputWrapper: "bg-white dark:bg-transparent",
+                        "text-foreground placeholder:text-muted-foreground",
+                      inputWrapper: "bg-background",
                     }}
                   />
                 </Form>
@@ -65,21 +67,8 @@ export default function App() {
 
 export function SearchSkeleton() {
   return (
-    <form className="w-max-[550px] relative w-full lg:w-80 xl:w-full">
-      <Input
-        isDisabled
-        placeholder="Search for products..."
-        startContent={
-          <Icon
-            icon="heroicons-outline:magnifying-glass"
-            className="h-4 text-neutral-500"
-            aria-hidden="true"
-          />
-        }
-        variant="bordered"
-        radius="lg"
-        size="sm"
-      />
-    </form>
+    <Button isIconOnly size="sm" variant="light" isDisabled>
+      <Icon icon="solar:magnifer-bold-duotone" width={20} aria-hidden="true" />
+    </Button>
   );
 }

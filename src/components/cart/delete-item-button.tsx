@@ -29,11 +29,12 @@ export function DeleteItemButton({
       <button
         type="submit"
         aria-label="Remove cart item"
-        className="flex h-[20px] w-[20px] items-center justify-center rounded-full bg-default-700"
+        className="flex h-[20px] w-[20px] items-center justify-center rounded-full bg-destructive hover:opacity-80 transition-opacity"
       >
         <Icon
-          icon="heroicons-outline:x-mark"
-          className="mx-[1px] h-3 w-3 text-default-50"
+          icon="solar:close-circle-bold"
+          width={16}
+          className="text-destructive-foreground"
           aria-hidden="true"
         />
       </button>

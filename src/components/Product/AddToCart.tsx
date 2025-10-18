@@ -1,12 +1,12 @@
 'use client';
 
 import { Icon } from '@iconify/react';
-import clsx from 'clsx';
+import { Button } from '@heroui/react';
 import { addItem } from '@/components/cart/actions';
-import { useProduct } from '@/components/Product/ProductContext';
+import { useProduct } from './ProductContext';
 import { Product, ProductVariant } from '@/lib/shopify/types';
 import { useActionState } from 'react';
-import { useCart } from './cart-context';
+import { useCart } from '@/components/cart/cart-context';
 
 function SubmitButton({
   availableForSale,
@@ -15,45 +15,49 @@ function SubmitButton({
   availableForSale: boolean;
   selectedVariantId: string | undefined;
 }) {
-  const buttonClasses =
-    'relative flex w-full items-center justify-center rounded-full bg-blue-600 p-4 tracking-wide text-white';
-  const disabledClasses = 'cursor-not-allowed opacity-60 hover:opacity-60';
-
   if (!availableForSale) {
     return (
-      <button disabled className={clsx(buttonClasses, disabledClasses)}>
+      <Button
+        isDisabled
+        fullWidth
+        size="lg"
+        radius="lg"
+        className="font-semibold"
+      >
         Out Of Stock
-      </button>
+      </Button>
     );
   }
 
   if (!selectedVariantId) {
     return (
-      <button
+      <Button
         aria-label="Please select an option"
-        disabled
-        className={clsx(buttonClasses, disabledClasses)}
+        isDisabled
+        fullWidth
+        size="lg"
+        radius="lg"
+        className="font-semibold"
+        startContent={<Icon icon="solar:cart-plus-bold-duotone" width={20} />}
       >
-        <div className="absolute left-0 ml-4">
-          <Icon icon="heroicons-outline:plus" className="h-5" aria-hidden="true" />
-        </div>
         Add To Cart
-      </button>
+      </Button>
     );
   }
 
   return (
-    <button
+    <Button
       aria-label="Add to cart"
-      className={clsx(buttonClasses, {
-        'hover:opacity-90': true
-      })}
+      type="submit"
+      fullWidth
+      size="lg"
+      color="primary"
+      radius="lg"
+      className="font-semibold"
+      startContent={<Icon icon="solar:cart-plus-bold-duotone" width={20} />}
     >
-      <div className="absolute left-0 ml-4">
-        <Icon icon="heroicons-outline:plus" className="h-5" aria-hidden="true" />
-      </div>
       Add To Cart
-    </button>
+    </Button>
   );
 }
 

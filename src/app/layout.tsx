@@ -1,7 +1,7 @@
 import { CartProvider } from "@/components/cart/cart-context";
 import { HeroProvider } from "@/components/HeroUIProvider";
-import AnnouncementBar from "@/components/sections/AnnouncementBar";
-import AppNavbar from "@/components/sections/Navbar";
+import AnnouncementBar from "@/components/Marketing/AnnouncementBar";
+import AppNavbar from "@/components/Marketing/Navbar";
 import { getCart } from "@/lib/shopify";
 import { baseUrl } from "@/lib/utils";
 import { Poppins } from "next/font/google";

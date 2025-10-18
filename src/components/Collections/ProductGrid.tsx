@@ -1,11 +1,29 @@
-import Grid from '@/components/grid';
-import { GridTileImage } from '@/components/grid/tile';
+import { GridTileImage } from '@/components/shared/GridTile';
 import { Product } from '@/lib/shopify/types';
 import Link from 'next/link';
+import clsx from 'clsx';
 
-export default function ProductGridItems({ products }: { products: Product[] }) {
+function Grid(props: React.ComponentProps<'ul'>) {
   return (
-    <>
+    <ul {...props} className={clsx('grid grid-flow-row gap-4', props.className)}>
+      {props.children}
+    </ul>
+  );
+}
+
+function GridItem(props: React.ComponentProps<'li'>) {
+  return (
+    <li {...props} className={clsx('aspect-square transition-opacity', props.className)}>
+      {props.children}
+    </li>
+  );
+}
+
+Grid.Item = GridItem;
+
+export default function ProductGrid({ products }: { products: Product[] }) {
+  return (
+    <Grid>
       {products.map((product) => (
         <Grid.Item key={product.handle} className="animate-fadeIn">
           <Link
@@ -27,6 +45,6 @@ export default function ProductGridItems({ products }: { products: Product[] }) 
           </Link>
         </Grid.Item>
       ))}
-    </>
+    </Grid>
   );
 }
