@@ -19,7 +19,7 @@ export default function SearchModal() {
   return (
     <>
       <Button isIconOnly size="sm" variant="light" onPress={onOpen}>
-        <Icon icon="solar:magnifer-bold-duotone" width={20} aria-hidden="true" />
+        <Icon icon="solar:magnifer-outline" width={20} aria-hidden="true" />
       </Button>
       <Modal isOpen={isOpen} onOpenChange={onOpenChange} size="lg" placement="top">
         <ModalContent>
@@ -40,7 +40,7 @@ export default function SearchModal() {
                     defaultValue={searchParams?.get("q") || ""}
                     startContent={
                       <Icon
-                        icon="solar:magnifer-linear"
+                        icon="solar:magnifer-outline"
                         width={20}
                         className="text-neutral-500"
                         aria-hidden="true"
@@ -68,7 +68,7 @@ export default function SearchModal() {
 export function SearchSkeleton() {
   return (
     <Button isIconOnly size="sm" variant="light" isDisabled>
-      <Icon icon="solar:magnifer-bold-duotone" width={20} aria-hidden="true" />
+      <Icon icon="solar:magnifer-outline" width={20} aria-hidden="true" />
     </Button>
   );
 }

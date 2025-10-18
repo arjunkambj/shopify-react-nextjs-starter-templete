@@ -39,9 +39,13 @@ export default function AppNavbar() {
 
   return (
     <Navbar
-      className="w-full border-b px-6 py-4"
+      className="w-full border-b backdrop-blur-md bg-background/80 shadow-sm"
+      classNames={{
+        wrapper: "px-6 py-4",
+      }}
       maxWidth="full"
-      position="static"
+      position="sticky"
+      isBordered
     >
       <NavbarContent className="hidden gap-4 sm:flex" justify="start">
         {primaryLinks.map(({ label, href }) => (
@@ -49,7 +53,9 @@ export default function AppNavbar() {
             <Link
               aria-current={isActive(href) ? "page" : undefined}
               href={href}
-              className="transition-colors hover:text-primary"
+              className={`transition-all hover:text-primary font-medium ${
+                isActive(href) ? "text-primary" : "text-foreground/70"
+              }`}
             >
               {label}
             </Link>
@@ -57,8 +63,10 @@ export default function AppNavbar() {
         ))}
       </NavbarContent>
       <NavbarBrand className="justify-center">
-        <AcmeLogo />
-        <p className="font-bold text-inherit">ACME</p>
+        <Link href="/" className="flex items-center gap-2">
+          <AcmeLogo />
+          <p className="font-bold text-inherit">ACME</p>
+        </Link>
       </NavbarBrand>
       <NavbarContent className="gap-2" justify="end">
         <NavbarItem>

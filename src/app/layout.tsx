@@ -2,6 +2,7 @@ import { CartProvider } from "@/components/cart/cart-context";
 import { HeroProvider } from "@/components/HeroUIProvider";
 import AnnouncementBar from "@/components/Marketing/AnnouncementBar";
 import AppNavbar from "@/components/Marketing/Navbar";
+import Footer from "@/components/Marketing/Footer";
 import { getCart } from "@/lib/shopify";
 import { baseUrl } from "@/lib/utils";
 import { Poppins } from "next/font/google";
@@ -45,6 +46,7 @@ export default async function RootLayout({
             <AnnouncementBar />
             <AppNavbar />
             <main>{children}</main>
+            <Footer />
           </CartProvider>
         </HeroProvider>
       </body>

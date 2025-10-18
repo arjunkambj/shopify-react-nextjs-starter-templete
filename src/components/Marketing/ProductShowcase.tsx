@@ -14,10 +14,10 @@ function ProductShowcaseItem({
 }) {
   return (
     <div
-      className={size === 'full' ? 'md:col-span-4 md:row-span-2' : 'md:col-span-2 md:row-span-1'}
+      className={`${size === 'full' ? 'md:col-span-4 md:row-span-2' : 'md:col-span-2 md:row-span-1'} group`}
     >
       <Link
-        className="relative block aspect-square h-full w-full"
+        className="relative block aspect-square h-full w-full overflow-hidden rounded-lg transition-all hover:-translate-y-1 hover:shadow-2xl"
         href={`/product/${item.handle}`}
         prefetch={true}
       >
@@ -68,10 +68,23 @@ export async function ProductShowcase() {
   const thirdProduct = items[2]!;
 
   return (
-    <section className="mx-auto grid max-w-(--breakpoint-2xl) gap-4 px-4 pb-4 md:grid-cols-6 md:grid-rows-2 lg:max-h-[calc(100vh-200px)]">
-      <ProductShowcaseItem size="full" item={firstProduct} priority={true} />
-      <ProductShowcaseItem size="half" item={secondProduct} priority={true} />
-      <ProductShowcaseItem size="half" item={thirdProduct} />
+    <section className="py-16 md:py-24">
+      <div className="container mx-auto px-4">
+        <div className="mb-12 text-center">
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
+            Featured Products
+          </h2>
+          <p className="mt-4 text-lg text-foreground/70">
+            Discover our handpicked selection
+          </p>
+        </div>
+        
+        <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-6 md:grid-rows-2">
+          <ProductShowcaseItem size="full" item={firstProduct} priority={true} />
+          <ProductShowcaseItem size="half" item={secondProduct} priority={true} />
+          <ProductShowcaseItem size="half" item={thirdProduct} />
+        </div>
+      </div>
     </section>
   );
 }

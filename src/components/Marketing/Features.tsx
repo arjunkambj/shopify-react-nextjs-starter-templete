@@ -28,13 +28,13 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="py-16 bg-secondary/10">
+    <section className="py-16 md:py-24">
       <div className="container mx-auto px-4">
-        <div className="text-center mb-12">
-          <h2 className="text-3xl font-bold text-foreground md:text-4xl">
+        <div className="mb-12 text-center">
+          <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
             Why Shop With Us
           </h2>
-          <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+          <p className="mt-4 text-lg text-foreground/70 max-w-2xl mx-auto">
             We provide the best shopping experience with quality products and
             excellent service
           </p>
@@ -44,9 +44,11 @@ export default function Features() {
           {features.map((feature, index) => (
             <Card
               key={index}
-              className="bg-card border border-border hover:border-primary transition-colors"
+              shadow="sm"
+              isPressable
+              className="border transition-all hover:shadow-lg hover:-translate-y-1 hover:border-primary"
             >
-              <CardBody className="p-6 text-center">
+              <CardBody className="p-6 text-center gap-3">
                 <div className="mx-auto mb-4 w-fit rounded-full bg-primary/10 p-4">
                   <Icon
                     icon={feature.icon}

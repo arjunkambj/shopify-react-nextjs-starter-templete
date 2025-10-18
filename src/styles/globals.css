@@ -133,8 +133,8 @@
   --card-foreground: oklch(0.9850 0 0);
   --popover: oklch(0.2690 0 0);
   --popover-foreground: oklch(0.9850 0 0);
-  --primary: oklch(0.9220 0 0);
-  --primary-foreground: oklch(0.2050 0 0);
+  --primary: oklch(0.6603 0.1259 25.8093);
+  --primary-foreground: oklch(0.9850 0 0);
   --secondary: oklch(0.2690 0 0);
   --secondary-foreground: oklch(0.9850 0 0);
   --muted: oklch(0.2690 0 0);
@@ -164,21 +164,21 @@
   --font-serif: ui-serif, Georgia, Cambria, "Times New Roman", Times, serif;
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --shadow-color: oklch(0 0 0);
-  --shadow-opacity: 0;
+  --shadow-opacity: 0.3;
   --shadow-blur: 3px;
   --shadow-spread: 0px;
   --shadow-offset-x: 0;
   --shadow-offset-y: 1px;
   --letter-spacing: 0em;
   --spacing: 0.25rem;
-  --shadow-2xs: 0 1px 3px 0px hsl(0 0% 0% / 0.00);
-  --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.00);
-  --shadow-sm: 0 1px 3px 0px hsl(0 0% 0% / 0.00), 0 1px 2px -1px hsl(0 0% 0% / 0.00);
-  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.00), 0 1px 2px -1px hsl(0 0% 0% / 0.00);
-  --shadow-md: 0 1px 3px 0px hsl(0 0% 0% / 0.00), 0 2px 4px -1px hsl(0 0% 0% / 0.00);
-  --shadow-lg: 0 1px 3px 0px hsl(0 0% 0% / 0.00), 0 4px 6px -1px hsl(0 0% 0% / 0.00);
-  --shadow-xl: 0 1px 3px 0px hsl(0 0% 0% / 0.00), 0 8px 10px -1px hsl(0 0% 0% / 0.00);
-  --shadow-2xl: 0 1px 3px 0px hsl(0 0% 0% / 0.00);
+  --shadow-2xs: 0 1px 2px 0px hsl(0 0% 0% / 0.3);
+  --shadow-xs: 0 1px 3px 0px hsl(0 0% 0% / 0.35);
+  --shadow-sm: 0 1px 2px 0px hsl(0 0% 0% / 0.3), 0 1px 3px 0px hsl(0 0% 0% / 0.4);
+  --shadow: 0 1px 3px 0px hsl(0 0% 0% / 0.4), 0 2px 6px -1px hsl(0 0% 0% / 0.4);
+  --shadow-md: 0 4px 6px -1px hsl(0 0% 0% / 0.4), 0 2px 4px -1px hsl(0 0% 0% / 0.3);
+  --shadow-lg: 0 10px 15px -3px hsl(0 0% 0% / 0.4), 0 4px 6px -2px hsl(0 0% 0% / 0.3);
+  --shadow-xl: 0 20px 25px -5px hsl(0 0% 0% / 0.4), 0 10px 10px -5px hsl(0 0% 0% / 0.25);
+  --shadow-2xl: 0 25px 50px -12px hsl(0 0% 0% / 0.5);
 }
 
 @layer base {

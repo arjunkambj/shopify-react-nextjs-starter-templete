@@ -5,7 +5,7 @@ import clsx from 'clsx';
 
 function Grid(props: React.ComponentProps<'ul'>) {
   return (
-    <ul {...props} className={clsx('grid grid-flow-row gap-4', props.className)}>
+    <ul {...props} className={clsx('grid grid-flow-row gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4', props.className)}>
       {props.children}
     </ul>
   );
@@ -13,7 +13,7 @@ function Grid(props: React.ComponentProps<'ul'>) {
 
 function GridItem(props: React.ComponentProps<'li'>) {
   return (
-    <li {...props} className={clsx('aspect-square transition-opacity', props.className)}>
+    <li {...props} className={clsx('aspect-square transition-all hover:-translate-y-1', props.className)}>
       {props.children}
     </li>
   );
@@ -27,7 +27,7 @@ export default function ProductGrid({ products }: { products: Product[] }) {
       {products.map((product) => (
         <Grid.Item key={product.handle} className="animate-fadeIn">
           <Link
-            className="relative inline-block h-full w-full"
+            className="relative inline-block h-full w-full group"
             href={`/product/${product.handle}`}
             prefetch={true}
           >

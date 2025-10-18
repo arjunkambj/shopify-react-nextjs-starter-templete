@@ -18,10 +18,10 @@ const Label = ({
         'lg:px-20 lg:pb-[35%]': position === 'center'
       })}
     >
-      <div className="flex items-center rounded-full border border-border bg-background/70 p-1 text-xs font-semibold text-foreground backdrop-blur-md">
+      <div className="flex items-center rounded-full border border-border bg-background/80 p-1 text-xs font-semibold text-foreground backdrop-blur-md shadow-lg transition-all group-hover:bg-background/90">
         <h3 className="mr-4 line-clamp-2 grow pl-2 leading-none tracking-tight">{title}</h3>
         <Price
-          className="flex-none rounded-full bg-primary p-2 text-primary-foreground"
+          className="flex-none rounded-full bg-primary p-2 text-primary-foreground transition-transform group-hover:scale-105"
           amount={amount}
           currencyCode={currencyCode}
           currencyCodeClassName="hidden @[275px]/label:inline"
