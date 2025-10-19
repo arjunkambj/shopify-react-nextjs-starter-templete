@@ -1,6 +1,5 @@
-import { GridTileImage } from '@/components/shared/GridTile';
+import { ProductCard } from '@/components/shared/ProductCard';
 import { Product } from '@/lib/shopify/types';
-import Link from 'next/link';
 import clsx from 'clsx';
 
 function Grid(props: React.ComponentProps<'ul'>) {
@@ -13,7 +12,7 @@ function Grid(props: React.ComponentProps<'ul'>) {
 
 function GridItem(props: React.ComponentProps<'li'>) {
   return (
-    <li {...props} className={clsx('aspect-square transition-all hover:-translate-y-1', props.className)}>
+    <li {...props} className={clsx('transition-all', props.className)}>
       {props.children}
     </li>
   );
@@ -26,23 +25,7 @@ export default function ProductGrid({ products }: { products: Product[] }) {
     <Grid>
       {products.map((product) => (
         <Grid.Item key={product.handle} className="animate-fadeIn">
-          <Link
-            className="relative inline-block h-full w-full group"
-            href={`/product/${product.handle}`}
-            prefetch={true}
-          >
-            <GridTileImage
-              alt={product.title}
-              label={{
-                title: product.title,
-                amount: product.priceRange.maxVariantPrice.amount,
-                currencyCode: product.priceRange.maxVariantPrice.currencyCode
-              }}
-              src={product.featuredImage?.url}
-              fill
-              sizes="(min-width: 768px) 33vw, (min-width: 640px) 50vw, 100vw"
-            />
-          </Link>
+          <ProductCard product={product} />
         </Grid.Item>
       ))}
     </Grid>

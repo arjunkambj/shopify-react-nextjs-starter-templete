@@ -25,7 +25,7 @@ export default function Footer() {
   const socialLinks = [
     { icon: "line-md:twitter-x", href: "/" as Route, label: "X" },
     { icon: "line-md:instagram", href: "/" as Route, label: "Instagram" },
-    { icon: "line-md:tikt k", href: "/" as Route, label: "TikTok" },
+    { icon: "line-md:tiktok", href: "/" as Route, label: "TikTok" },
   ];
 
   return (

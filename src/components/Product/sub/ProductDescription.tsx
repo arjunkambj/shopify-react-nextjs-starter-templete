@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Price from "@/components/shared/Price";
 import Prose from "@/components/shared/Prose";
@@ -13,7 +13,7 @@ export function ProductDescription({ product }: { product: Product }) {
         <h1 className="mb-2 text-5xl font-medium text-foreground">
           {product.title}
         </h1>
-        <div className="mr-auto w-auto rounded-full bg-primary p-2 text-sm text-primary-foreground">
+        <div className="mr-auto w-auto rounded-full text-xl px-2 py-1">
           <Price
             amount={product.priceRange.maxVariantPrice.amount}
             currencyCode={product.priceRange.maxVariantPrice.currencyCode}
@@ -23,7 +23,7 @@ export function ProductDescription({ product }: { product: Product }) {
       <VariantSelector options={product.options} variants={product.variants} />
       {product.descriptionHtml ? (
         <Prose
-          className="mb-6 text-sm leading-tight text-muted-foreground"
+          className="mb-6 text-base leading-tight text-muted-foreground"
           html={product.descriptionHtml}
         />
       ) : null}

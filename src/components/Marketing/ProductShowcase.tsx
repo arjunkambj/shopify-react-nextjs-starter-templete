@@ -1,59 +1,17 @@
-import { GridTileImage } from '@/components/shared/GridTile';
-import { getCollectionProducts, getProducts } from '@/lib/shopify';
-import type { Product } from '@/lib/shopify/types';
-import Link from 'next/link';
-
-function ProductShowcaseItem({
-  item,
-  size,
-  priority
-}: {
-  item: Product;
-  size: 'full' | 'half';
-  priority?: boolean;
-}) {
-  return (
-    <div
-      className={`${size === 'full' ? 'md:col-span-4 md:row-span-2' : 'md:col-span-2 md:row-span-1'} group`}
-    >
-      <Link
-        className="relative block aspect-square h-full w-full overflow-hidden rounded-lg transition-all hover:-translate-y-1 hover:shadow-2xl"
-        href={`/product/${item.handle}`}
-        prefetch={true}
-      >
-        <GridTileImage
-          src={item.featuredImage?.url}
-          fill
-          sizes={
-            size === 'full' ? '(min-width: 768px) 66vw, 100vw' : '(min-width: 768px) 33vw, 100vw'
-          }
-          priority={priority}
-          alt={item.title}
-          label={{
-            position: size === 'full' ? 'center' : 'bottom',
-            title: item.title as string,
-            amount: item.priceRange.maxVariantPrice.amount,
-            currencyCode: item.priceRange.maxVariantPrice.currencyCode
-          }}
-        />
-      </Link>
-    </div>
-  );
-}
+import { ProductCard } from "@/components/shared/ProductCard";
+import { getCollectionProducts, getProducts } from "@/lib/shopify";
 
 export async function ProductShowcase() {
-  // Collections that start with `hidden-*` are hidden from the search page.
   const homepageItems = await getCollectionProducts({
-    collection: 'hidden-homepage-featured-items'
+    collection: "hidden-homepage-featured-items",
   });
 
-  // Fallback: if the collection has fewer than 3 items, fill with latest products
   const items = homepageItems;
-  if (items.length < 3) {
-    const latest = await getProducts({ sortKey: 'CREATED_AT', reverse: true });
+  if (items.length < 4) {
+    const latest = await getProducts({ sortKey: "CREATED_AT", reverse: true });
     const seen = new Set(items.map((p) => p.handle));
     for (const p of latest) {
-      if (items.length >= 3) break;
+      if (items.length >= 8) break;
       if (!seen.has(p.handle)) {
         items.push(p);
         seen.add(p.handle);
@@ -61,28 +19,27 @@ export async function ProductShowcase() {
     }
   }
 
-  if (items.length < 3) return null;
+  if (items.length === 0) return null;
 
-  const firstProduct = items[0]!;
-  const secondProduct = items[1]!;
-  const thirdProduct = items[2]!;
+  const displayItems = items.slice(0, 8);
 
   return (
     <section className="py-16 md:py-24">
       <div className="container mx-auto px-4">
-        <div className="mb-12 text-center">
+        <div className="mb-8 md:mb-12 flex items-center justify-between">
           <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-            Featured Products
+            Trending this Season
           </h2>
-          <p className="mt-4 text-lg text-foreground/70">
-            Discover our handpicked selection
-          </p>
         </div>
-        
-        <div className="mx-auto grid max-w-7xl gap-6 md:grid-cols-6 md:grid-rows-2">
-          <ProductShowcaseItem size="full" item={firstProduct} priority={true} />
-          <ProductShowcaseItem size="half" item={secondProduct} priority={true} />
-          <ProductShowcaseItem size="half" item={thirdProduct} />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+          {displayItems.map((product, index) => (
+            <ProductCard
+              key={product.handle}
+              product={product}
+              priority={index < 4}
+            />
+          ))}
         </div>
       </div>
     </section>

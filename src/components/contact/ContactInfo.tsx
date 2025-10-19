@@ -25,23 +25,18 @@ const contactDetails = [
 
 const socialLinks = [
   {
-    icon: "solar:facebook-linear",
-    name: "Facebook",
+    icon: "line-md:twitter-x",
+    name: "X",
     href: "#",
   },
   {
-    icon: "solar:instagram-linear",
+    icon: "line-md:instagram",
     name: "Instagram",
     href: "#",
   },
   {
-    icon: "solar:twitter-linear",
-    name: "Twitter",
-    href: "#",
-  },
-  {
-    icon: "solar:linkedin-linear",
-    name: "LinkedIn",
+    icon: "line-md:tiktok",
+    name: "TikTok",
     href: "#",
   },
 ];
@@ -52,14 +47,14 @@ export default function ContactInfo() {
       <div>
         <h2 className="mb-2 text-2xl font-bold">Get in Touch</h2>
         <p className="text-foreground/70">
-          Have a question? We&apos;re here to help. Send us a message and we&apos;ll
-          respond as soon as possible.
+          Have a question? We&apos;re here to help. Send us a message and
+          we&apos;ll respond as soon as possible.
         </p>
       </div>
 
       <div className="space-y-4">
         {contactDetails.map((detail, index) => (
-          <Card key={index} shadow="sm" className="border">
+          <Card shadow="none" className="bg-muted/80" key={index}>
             <CardBody className="flex-row items-start gap-4 p-4">
               <div className="rounded-lg bg-primary/10 p-3">
                 <Icon icon={detail.icon} width={24} className="text-primary" />
@@ -88,9 +83,9 @@ export default function ContactInfo() {
               key={social.name}
               href={social.href}
               aria-label={social.name}
-              className="flex h-12 w-12 items-center justify-center rounded-lg border bg-background transition-all hover:bg-primary hover:border-primary hover:text-white"
+              className="text-foreground/70 transition-colors hover:text-primary"
             >
-              <Icon icon={social.icon} width={24} />
+              <Icon icon={social.icon} width={20} />
             </a>
           ))}
         </div>

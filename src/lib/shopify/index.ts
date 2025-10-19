@@ -143,8 +143,17 @@ const reshapeCollection = (
     return undefined;
   }
 
+  const image = collection.image
+    ? {
+        ...collection.image,
+        altText:
+          collection.image.altText || `${collection.title} collection image`
+      }
+    : null;
+
   return {
     ...collection,
+    image,
     path: `/search/${collection.handle}`
   };
 };
@@ -367,6 +376,7 @@ export async function getCollections(): Promise<Collection[]> {
       handle: '',
       title: 'All',
       description: 'All products',
+      image: null,
       seo: {
         title: 'All',
         description: 'All products'

@@ -1,99 +1,160 @@
-'use client';
+"use client";
 
-import { Icon } from '@iconify/react';
-import { GridTileImage } from '@/components/shared/GridTile';
-import { useProduct, useUpdateURL } from './ProductContext';
-import Image from 'next/image';
-import { Button } from '@heroui/react';
+import { Icon } from "@iconify/react";
+import { useProduct, useUpdateURL } from "./ProductContext";
+import Image from "next/image";
+import {
+  Button,
+  Modal,
+  ModalContent,
+  ModalBody,
+  useDisclosure,
+} from "@heroui/react";
+import { useState } from "react";
+import { cn } from "@/lib/utils";
 
-export function Gallery({ images }: { images: { src: string; altText: string }[] }) {
+export function Gallery({
+  images,
+}: {
+  images: { src: string; altText: string }[];
+}) {
   const { state, updateImage } = useProduct();
   const updateURL = useUpdateURL();
   const imageIndex = state.image ? parseInt(state.image) : 0;
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [selectedImage, setSelectedImage] = useState<number>(0);
+  const [pendingUrlState, setPendingUrlState] =
+    useState<ReturnType<typeof updateImage> | null>(null);
+  const hasSingleImage = images.length === 1;
 
-  const nextImageIndex = imageIndex + 1 < images.length ? imageIndex + 1 : 0;
-  const previousImageIndex = imageIndex === 0 ? images.length - 1 : imageIndex - 1;
+  const handleImageClick = (index: number) => {
+    const newState = updateImage(index.toString());
+    setPendingUrlState(newState);
+    setSelectedImage(index);
+    onOpen();
+  };
+
+  const nextImage = () => {
+    const nextIndex = selectedImage + 1 < images.length ? selectedImage + 1 : 0;
+    setSelectedImage(nextIndex);
+    const newState = updateImage(nextIndex.toString());
+    setPendingUrlState(newState);
+  };
+
+  const previousImage = () => {
+    const prevIndex =
+      selectedImage === 0 ? images.length - 1 : selectedImage - 1;
+    setSelectedImage(prevIndex);
+    const newState = updateImage(prevIndex.toString());
+    setPendingUrlState(newState);
+  };
+
+  const handleModalClose = () => {
+    onClose();
+    if (pendingUrlState) {
+      updateURL(pendingUrlState);
+      setPendingUrlState(null);
+    }
+  };
 
   return (
-    <form>
-      <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden">
-        {images[imageIndex] && (
-          <Image
-            className="h-full w-full object-contain"
-            fill
-            sizes="(min-width: 1024px) 66vw, 100vw"
-            alt={images[imageIndex]?.altText as string}
-            src={images[imageIndex]?.src as string}
-            priority={true}
-          />
-        )}
+    <>
+      <div
+        className={`grid gap-3 ${hasSingleImage ? "grid-cols-1" : "grid-cols-2"}`}
+      >
+        {images.map((image, index) => {
+          const isActive = index === imageIndex;
 
-        {images.length > 1 ? (
-          <div className="absolute bottom-[15%] flex w-full justify-center">
-            <div className="mx-auto flex h-11 items-center rounded-full border border-border bg-background/80 text-muted-foreground backdrop-blur-sm">
-              <Button
-                aria-label="Previous product image"
-                variant="light"
-                isIconOnly
-                radius="full"
-                className="h-full"
-                onPress={() => {
-                  const newState = updateImage(previousImageIndex.toString());
-                  updateURL(newState);
-                }}
-              >
-                <Icon icon="solar:alt-arrow-left-linear" width={20} aria-hidden="true" />
-              </Button>
-              <div className="mx-1 h-6 w-px bg-border"></div>
-              <Button
-                aria-label="Next product image"
-                variant="light"
-                isIconOnly
-                radius="full"
-                className="h-full"
-                onPress={() => {
-                  const newState = updateImage(nextImageIndex.toString());
-                  updateURL(newState);
-                }}
-              >
-                <Icon icon="solar:alt-arrow-right-linear" width={20} aria-hidden="true" />
-              </Button>
-            </div>
-          </div>
-        ) : null}
+          return (
+            <button
+              key={image.src}
+              type="button"
+              onClick={() => handleImageClick(index)}
+              className={cn(
+                "relative w-full overflow-hidden rounded-xl transition-all duration-300 ease-out focus-visible:outline-none focus-visible:opacity-100 focus-visible:shadow-xl active:scale-[0.98]",
+                isActive ? "opacity-100 shadow-xl" : "opacity-60"
+              )}
+              aria-label={`View ${image.altText}`}
+            >
+              <Image
+                className="w-full h-auto object-contain transition-transform duration-300"
+                width={800}
+                height={800}
+                sizes={
+                  hasSingleImage
+                    ? "(min-width: 1024px) 50vw, 100vw"
+                    : "(min-width: 1024px) 33vw, 50vw"
+                }
+                alt={image.altText}
+                src={image.src}
+                priority={index < 2}
+                loading={index < 2 ? "eager" : "lazy"}
+              />
+              {isActive && (
+                <div className="absolute inset-0 rounded-xl pointer-events-none" />
+              )}
+            </button>
+          );
+        })}
       </div>
 
-      {images.length > 1 ? (
-        <ul className="my-12 flex items-center flex-wrap justify-center gap-2 overflow-auto py-1 lg:mb-0">
-          {images.map((image, index) => {
-            const isActive = index === imageIndex;
+      <Modal
+        isOpen={isOpen}
+        onClose={handleModalClose}
+        size="5xl"
+        backdrop="blur"
+        classNames={{
+          base: "bg-background/95",
+          backdrop: "bg-black/80",
+        }}
+      >
+        <ModalContent>
+          <ModalBody className="p-0">
+            <div className="relative aspect-square w-full">
+              <Image
+                className="h-full w-full object-contain"
+                fill
+                sizes="90vw"
+                alt={images[selectedImage]?.altText as string}
+                src={images[selectedImage]?.src as string}
+                priority
+              />
 
-            return (
-              <li key={image.src} className="h-20 w-20">
-                <Button
-                  aria-label="Select product image"
-                  variant={isActive ? 'solid' : 'light'}
-                  color={isActive ? 'primary' : 'default'}
-                  radius="md"
-                  className="h-full w-full p-0"
-                  onPress={() => {
-                    const newState = updateImage(index.toString());
-                    updateURL(newState);
-                  }}
-                >
-                  <GridTileImage
-                    alt={image.altText}
-                    src={image.src}
-                    width={80}
-                    height={80}
-                    active={isActive}
-                  />
-                </Button>
-              </li>
-            );
-          })}
-        </ul>
-      ) : null}
-    </form>
+              {images.length > 1 && (
+                <>
+                  <Button
+                    aria-label="Previous image"
+                    variant="solid"
+                    color="default"
+                    isIconOnly
+                    radius="full"
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm"
+                    onPress={previousImage}
+                  >
+                    <Icon icon="solar:alt-arrow-left-linear" width={24} />
+                  </Button>
+
+                  <Button
+                    aria-label="Next image"
+                    variant="solid"
+                    color="default"
+                    isIconOnly
+                    radius="full"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-background/80 backdrop-blur-sm"
+                    onPress={nextImage}
+                  >
+                    <Icon icon="solar:alt-arrow-right-linear" width={24} />
+                  </Button>
+
+                  <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-background/80 backdrop-blur-sm px-4 py-2 rounded-full text-sm font-medium">
+                    {selectedImage + 1} / {images.length}
+                  </div>
+                </>
+              )}
+            </div>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
+    </>
   );
 }

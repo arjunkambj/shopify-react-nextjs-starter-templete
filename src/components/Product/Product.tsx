@@ -78,12 +78,19 @@ export default function Product({ product }: ProductProps) {
           __html: JSON.stringify(productJsonLd),
         }}
       />
-      <div className="mx-auto max-w-7xl px-4">
-        <div className="flex flex-col rounded-lg border border-border bg-card p-8 md:p-12 lg:flex-row lg:gap-8">
-          <div className="h-full w-full basis-full lg:basis-4/6">
+      <div className="mx-auto container px-4">
+        <div className="flex flex-col rounded-lg bg-card p-8 md:p-12 lg:flex-row lg:gap-8">
+          <div className="w-full basis-full lg:basis-4/6">
             <Suspense
               fallback={
-                <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden" />
+                <div className="grid grid-cols-2 gap-3 animate-pulse">
+                  {[...Array(4)].map((_, i) => (
+                    <div
+                      key={i}
+                      className="aspect-square bg-default-200 rounded-lg"
+                    />
+                  ))}
+                </div>
               }
             >
               <Gallery
@@ -95,7 +102,7 @@ export default function Product({ product }: ProductProps) {
             </Suspense>
           </div>
 
-          <div className="basis-full lg:basis-2/6">
+          <div className="basis-full  lg:basis-2/6">
             <Suspense fallback={null}>
               <ProductDescription product={product} />
             </Suspense>

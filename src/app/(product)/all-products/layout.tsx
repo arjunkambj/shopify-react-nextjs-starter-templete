@@ -10,18 +10,17 @@ export default function ProductsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="mx-auto flex max-w-(--breakpoint-2xl) flex-col gap-8 px-4 pb-4 text-foreground md:flex-row">
-      <div className="order-first w-full flex-none md:max-w-[125px]">
+    <div className="mx-auto flex max-w-(--breakpoint-2xl) flex-col gap-6 px-4 py-8 text-foreground md:gap-8 md:px-6 md:py-12 lg:flex-row lg:gap-12 lg:px-8">
+      <aside className="order-first w-full flex-none space-y-6 lg:max-w-[200px] lg:sticky lg:top-8 lg:h-fit">
+        <FilterList list={sorting} title="Sort by" />
         <Collections />
-      </div>
-      <div className="order-last min-h-screen w-full md:order-none">
+      </aside>
+
+      <main className="order-last min-h-screen w-full lg:order-none">
         <Suspense fallback={null}>
           <ChildrenWrapper>{children}</ChildrenWrapper>
         </Suspense>
-      </div>
-      <div className="order-none flex-none md:order-last md:w-[125px]">
-        <FilterList list={sorting} title="Sort by" />
-      </div>
+      </main>
     </div>
   );
 }

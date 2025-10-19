@@ -1,6 +1,6 @@
 export default function AboutHero() {
   return (
-    <section className="relative py-20 md:py-32">
+    <section className="relative py-20 pb-28">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-4xl text-center">
           <div className="mb-6 inline-flex rounded-full bg-primary/10 px-4 py-2">

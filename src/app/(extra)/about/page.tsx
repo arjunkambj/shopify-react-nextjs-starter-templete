@@ -1,10 +1,11 @@
+import type { Metadata } from "next";
 import AboutHero from "@/components/about/AboutHero";
 import OurStory from "@/components/about/OurStory";
-import OurValues from "@/components/about/OurValues";
 
-export const metadata = {
+export const metadata: Metadata = {
   title: "About Us",
-  description: "Learn more about our story, values, and the team behind our e-commerce platform.",
+  description:
+    "Learn more about our story, values, and the team behind our e-commerce platform.",
 };
 
 export default function AboutPage() {
@@ -12,7 +13,6 @@ export default function AboutPage() {
     <>
       <AboutHero />
       <OurStory />
-      <OurValues />
     </>
   );
 }

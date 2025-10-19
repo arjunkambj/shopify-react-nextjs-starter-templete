@@ -5,18 +5,10 @@ import AppNavbar from "@/components/Marketing/Navbar";
 import Footer from "@/components/Marketing/Footer";
 import { getCart } from "@/lib/shopify";
 import { baseUrl } from "@/lib/utils";
-import { Poppins } from "next/font/google";
 import { ReactNode } from "react";
 import "../styles/globals.css";
 
 const { SITE_NAME } = process.env;
-
-const poppins = Poppins({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-poppins",
-  display: "swap",
-});
 
 export const metadata = {
   metadataBase: new URL(baseUrl),
@@ -40,7 +32,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${poppins.className} ${poppins.variable}`}>
+      <body>
         <HeroProvider>
           <CartProvider cartPromise={cart}>
             <AnnouncementBar />
