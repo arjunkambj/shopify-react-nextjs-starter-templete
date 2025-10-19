@@ -1,171 +1,155 @@
 # Shopify + Next.js Commerce Starter
 
-This is a simple, production-ready starter for building a fast Shopify storefront with Next.js. It includes a clean product browsing experience, a sticky cart with server actions, and a handful of flexible merchandising components to help you launch quickly and iterate confidently.
+A production-ready Shopify storefront built with the Next.js App Router. The project ships with a marketing-first homepage, dynamic product discovery, and an optimistic cart flow so you can launch quickly and keep iterating with confidence.
 
-## What You Get
+## Highlights
 
-- Solid Shopify integration (Storefront API) with helpers for fetching products, collections, prices, and inventory.
-- Conversion-minded UI: hero grid, carousel, sticky cart, and a small welcome toast you can tailor to your brand.
-- Performance-friendly defaults: React Server Components, streaming, Suspense, and optimized images.
-- Styling with Tailwind CSS 4, Headless UI, Iconify icons, and the Poppins webfont.
+- Full-funnel storefront: announcement bar, sticky HeroUI navbar, hero section, featured collections, product showcase, testimonials, and FAQ modules.
+- Product discovery built in: global search modal, `/all-products` listing, Shopify-driven collections, and policy pages that load directly from the Storefront API.
+- Rich product detail screens: variant-aware gallery, structured data, related products, and an optimistic cart powered by server actions plus `useOptimistic`.
+- Performance and polish: React Server Components with Suspense, streaming data fetches, custom Open Graph image generation, and Tailwind CSS 4 styling.
 
 ## Tech Stack
 
-- Next.js 15 App Router + React 19.
-- Shopify Storefront API (GraphQL) via `lib/shopify`.
-- Tailwind CSS 4, Headless UI, Iconify, HeroUI, and Sonner.
-- TypeScript and ESLint; Turbopack for local dev.
+- Next.js 15 App Router + React 19 (RSC by default, Turbopack in dev).
+- Shopify Storefront GraphQL API helpers in `src/lib/shopify`.
+- Tailwind CSS 4 with container queries, HeroUI components, and Iconify icons.
+- TypeScript, ESLint, and Bun scripts for local development.
 
-## Quick Start
+## Storefront Experience
+
+- **Homepage funnel** – Marketing components in `src/components/Marketing` draw users through collections, features, testimonials, and FAQs.
+- **Product discovery** – Route group `src/app/(product)` covers `/all-products`, `/search`, and `/product/[handle]` with sorting and collection fallbacks.
+- **Product detail** – `Product` renders a gallery, variant selector, schema.org JSON-LD, and `RelatedProducts` suggestions fetched from Shopify.
+- **Support pages** – Route group `src/app/(extra)` delivers About, Contact (with live HeroUI form), and Shopify policy pages rendered via `getPage`.
+- **Cart & checkout** – Sliding cart drawer, optimistic quantity updates, and server actions (`src/components/cart/actions.ts`) that mutate Shopify carts and revalidate cache tags.
+
+## Shopify Integration
+
+- `src/lib/shopify` centralizes fragments, queries, mutations, and typed helpers. `shopifyFetch` applies Storefront auth headers and reshapes responses.
+- Cache tags (`TAGS`) and `revalidateTag` keep product, collection, and cart data fresh. Webhook hits POST `/api/revalidate` to trigger ISR.
+- `validateEnvironmentVariables` surfaces missing credentials early, and `ensureStartsWith` normalizes domains.
+- Collections named `hidden-*` seed the homepage showcase, with graceful fallbacks to the newest products.
+
+## UI System & Styling
+
+- HeroUI is wrapped by `HeroProvider` to supply consistent theming and Drawer/Nav components.
+- Shared utilities (`src/components/shared`) provide reusable typography, price formatting, grid tiles, and Open Graph artwork.
+- Tailwind CSS 4 powers responsive layouts; global styles live in `src/styles/globals.css` and are loaded by `src/app/layout.tsx`.
+- Icons come exclusively from `@iconify/react` to keep visual language consistent.
+
+## Getting Started
 
 ### Prerequisites
 
 - Node.js 18.18+ (20+ recommended)
-- bun (or use your preferred package manager)
-- A Shopify store (a development store is fine)
+- [Bun](https://bun.sh) (or your preferred package manager)
+- Shopify development store with Storefront API access
 
-### Install dependencies
+### Install & Configure
 
-```bash
-bun install
-```
-
-### Configure environment variables
-
-Copy `.env.example` to `.env.local` and fill in the values described below.
-
-### Start the dev server
-
-```bash
-bun dev
-```
-
-Open `http://localhost:3000` to view your storefront.
-
-## Configure Shopify
-
-1. In Shopify admin, create a custom app (Settings → Apps and sales channels → Develop apps → Create app) to get Storefront API credentials.
-2. Enable the needed Storefront API scopes, then generate a Storefront API access token. Set this as `SHOPIFY_STOREFRONT_ACCESS_TOKEN`.
-3. Set `SHOPIFY_STORE_DOMAIN` to your store domain (for example `your-store.myshopify.com`).
-4. Generate a random secret string for `SHOPIFY_REVALIDATION_SECRET`. Use it to protect calls to `/api/revalidate?secret=...` when configuring webhooks.
-5. Update `COMPANY_NAME` and `SITE_NAME` to match your brand.
+1. Install dependencies:
+   ```bash
+   bun install
+   ```
+2. Copy environment defaults and fill in secrets:
+   ```bash
+   cp .env.example .env.local
+   ```
+3. Populate the values shown below, then start the app:
+   ```bash
+   bun dev
+   ```
+   Visit `http://localhost:3000`.
 
 ## Environment Variables
 
-| Key                               | Required | Description                                                             |
-| --------------------------------- | -------- | ----------------------------------------------------------------------- |
-| `SHOPIFY_STORE_DOMAIN`            | ✅       | Your store domain, e.g. `your-store.myshopify.com`.                     |
-| `SHOPIFY_STOREFRONT_ACCESS_TOKEN` | ✅       | Storefront API token generated from your Shopify custom app.            |
-| `SHOPIFY_REVALIDATION_SECRET`     | ✅       | Secret used to authenticate ISR/webhook revalidation requests.          |
-| `COMPANY_NAME`                    | ➖       | Used in UI copy and footer. Defaults to `Your Company`.                 |
-| `SITE_NAME`                       | ➖       | Site title used in metadata and headers. Defaults to `Your Storefront`. |
+| Key                               | Required | Description                                                                 |
+| --------------------------------- | -------- | --------------------------------------------------------------------------- |
+| `SHOPIFY_STORE_DOMAIN`            | ✅       | Shopify store domain, e.g. `your-store.myshopify.com`.                      |
+| `SHOPIFY_STOREFRONT_ACCESS_TOKEN` | ✅       | Storefront API token from your custom app.                                  |
+| `SHOPIFY_REVALIDATION_SECRET`     | ✅       | Secret shared with Shopify webhooks hitting `/api/revalidate`.              |
+| `COMPANY_NAME`                    | ➖       | Overrides footer/company copy (defaults to `Your Company`).                 |
+| `SITE_NAME`                       | ➖       | Used for metadata titles and the header logo (defaults to `Your Storefront`). |
+| `VERCEL_PROJECT_PRODUCTION_URL`   | ➖       | Optional base URL override for Open Graph images when deploying to Vercel.  |
 
-Keep `.env.local` out of version control.
+The helper `validateEnvironmentVariables` throws on missing required keys. Never commit `.env.local`.
 
 ## Scripts
 
-- `bun dev` – Start the development server.
-- `bun build` – Create a production build.
-- `bun start` – Run the production build locally.
-- `bun lint` – Lint the project.
+- `bun dev` – Start the development server with Turbopack.
+- `bun build` – Build a production bundle (`.next/`).
+- `bun start` – Serve the production build locally.
+- `bun lint` – Run ESLint with the Next.js config.
+- `bun check-types` – Type-check the project with `tsc --noEmit`.
 
 ## Project Structure
 
 ```text
-src/app/              App Router routes (RSC-powered storefront, product, and account pages)
-src/components/       Reusable UI (cart modal, carousel, grids, layout, icons)
-src/lib/shopify/      Shopify Storefront API client and helpers
-src/styles/           Global styles (e.g., globals.css)
-fonts/                Optional font assets (Poppins loads via next/font)
-public/               Static assets (og images, favicons, etc.)
+src/
+  app/
+    layout.tsx          # Global providers, font, nav/footer, cart context
+    page.tsx            # Marketing homepage (Hero, collections, showcase, etc.)
+    (product)/
+      all-products/page.tsx
+      search/page.tsx
+      product/[handle]/page.tsx
+    (extra)/
+      about/page.tsx
+      contact/page.tsx
+      [policies]/        # Dynamic pages resolved from Shopify CMS
+        page.tsx
+        layout.tsx
+        opengraph-image.tsx
+    api/revalidate/route.ts
+  components/
+    Marketing/          # Announcement bar, navbar, hero, sections
+    Product/            # Gallery, description, related products
+    cart/               # Drawer UI, server actions, optimistic hooks
+    shared/             # Prose renderer, price formatter, grid tiles, logos
+    HeroUIProvider.tsx  # Wraps HeroUI theme provider
+  lib/
+    shopify/            # GraphQL fragments, queries, mutations, types, helpers
+    constants.ts
+    utils.ts
+  styles/
+    globals.css         # Tailwind CSS 4 entry point
+public/                 # Favicons, OG assets, etc.
 ```
-
-Notable pieces in `src/components/`:
-
-- `src/components/cart/` provides a sticky cart backed by Server Actions.
-- `src/components/carousel.tsx` and `src/components/grid/three-items.tsx` are handy merchandising layouts.
-- `src/components/welcome-toast.tsx` shows a small, customizable first-visit message.
-
-### Path aliases
-
-- `@/*` resolves to `src/*`. Examples:
-  - `import ProductGrid from '@/components/layout/product-grid-items'`
-  - `import { getProducts } from '@/lib/shopify'`
-
-### Styles
-
-- Global stylesheet lives at `src/styles/globals.css` and is imported from `src/app/layout.tsx` using a relative path:
-  - `import '../styles/globals.css'`
-
-### UI Libraries
-
-- Icons: Use `@iconify/react` and its `Icon` component for all icons.
-  - Example: `import { Icon } from '@iconify/react'`
-- HeroUI: Import components/utilities from `@heroui/react` (no deep imports).
-  - The app root is wrapped by `HeroProvider` (`src/components/HeroUIProvider.tsx`).
 
 ## Deployment
 
-### Vercel (with Shopify Integration)
+### Vercel + Shopify Integration
 
-The easiest way to launch is with Vercel and the Shopify integration.
+1. Install the [Shopify ↔︎ Vercel integration](https://vercel.com/docs/integrations/ecommerce/shopify) and connect your project.
+2. Set the environment variables (`SHOPIFY_STORE_DOMAIN`, `SHOPIFY_STOREFRONT_ACCESS_TOKEN`, `SHOPIFY_REVALIDATION_SECRET`) for Production and Preview.
+3. Build settings: Framework preset **Next.js**, build command `next build`, Node.js 18 or 20.
+4. Deploy and confirm product, collection, and cart flows.
+5. Configure Shopify webhooks (product/collection updates) to call `https://<your-domain>/api/revalidate?secret=YOUR_SECRET`.
 
-1) Install the integration
-- Open the Vercel + Shopify guide: https://vercel.com/docs/integrations/ecommerce/shopify
-- Click Install and choose your Vercel account/team and this project.
-- Connect your Shopify store when prompted (you’ll install a Shopify app during the flow).
+### Other Platforms
 
-2) Configure environment variables (Project Settings → Environment Variables)
-- `SHOPIFY_STORE_DOMAIN` – e.g. `your-store.myshopify.com`
-- `SHOPIFY_STOREFRONT_ACCESS_TOKEN` – from your Shopify custom app
-- `SHOPIFY_REVALIDATION_SECRET` – any random string you also use in webhooks
+- `bun build` → upload the `.next` output.
+- `bun start` to run the production server behind your platform’s process manager.
+- Mirror the same environment variables and webhook secrets.
 
-Add these for Production and Preview. If the integration auto-creates them, verify the values.
+## Customization Notes
 
-3) Build & runtime settings (Project Settings → Build & Development Settings)
-- Framework preset: Next.js
-- Build command: `next build` (default)
-- Output: Automatic (Next.js)
-- Node.js Version: 18 or 20
-
-4) Deploy
-- Push to your main branch or click Deploy in Vercel. After the first deployment, open the URL to verify pages, product lists, and cart.
-
-5) Revalidation (ISR) via Shopify webhooks
-- In Shopify Admin, add webhooks (e.g., product/create, product/update, collection/update) pointing to:
-  - `https://<your-domain>/api/revalidate?secret=YOUR_SHOPIFY_REVALIDATION_SECRET`
-- Ensure the query secret matches `SHOPIFY_REVALIDATION_SECRET` in Vercel. This lets the site refresh cached pages after catalog changes.
-
-Notes
-- Remote images from `cdn.shopify.com` are already allowed in `next.config.ts`.
-- If you use a custom domain, set it up in Vercel after the first deploy.
-
-### Other platforms
-
-You can deploy this app to any platform that supports Node.js and Next.js. A typical flow is:
-
-1. Build the app: `bun build`
-2. Run the server: `bun start`
-3. Configure environment variables on your hosting platform.
-
-Make sure your webhook (if configured) calls `/api/revalidate?secret=YOUR_SECRET` to refresh cached pages after product changes.
-
-## Optimization Tips
-
-- Replace demo assets and copy with your own to reduce layout shifts.
-- Use Shopify Metafields to curate collections or hero content.
-- Configure Shopify Markets and currency settings for international stores.
-- Add analytics and A/B testing of your choice for insights and iteration.
+- Update marketing copy, announcement text, and contact details in `src/components/Marketing` and `src/components/contact`.
+- Replace placeholder social links and policy URLs with real destinations.
+- Add your own hero imagery in `public/` and ensure OG fonts exist if you customize `opengraph-image.tsx`.
 
 ## Troubleshooting
 
-- Cart not updating? Ensure your token has the required Storefront API scopes (including inventory reads).
-- Revalidation errors? Confirm the secret and webhook URL match your `SHOPIFY_REVALIDATION_SECRET`.
-- Styling surprises? If you upgrade plugins, keep an eye on Tailwind class names and CSS variable usage.
+- **Cart not updating** – Ensure Storefront API scopes include `unauthenticated_write_checkouts` and `unauthenticated_write_customers`.
+- **Revalidation failures** – Check the shared secret and confirm Shopify webhooks send POST requests to `/api/revalidate`.
+- **Environment errors** – Startup crashes typically mean `validateEnvironmentVariables` detected missing credentials.
+- **Styling regressions** – Tailwind CSS 4 uses content-aware builds; restart the dev server after editing class names heavily.
 
 ## Resources
 
-- Shopify Storefront API reference: https://shopify.dev/docs/api/storefront
-- Tailwind CSS v4 docs: https://tailwindcss.com/docs
+- Shopify Storefront API: https://shopify.dev/docs/api/storefront
+- HeroUI documentation: https://www.heroui.dev/docs/react
+- Tailwind CSS v4: https://tailwindcss.com/docs
 
 Happy building!

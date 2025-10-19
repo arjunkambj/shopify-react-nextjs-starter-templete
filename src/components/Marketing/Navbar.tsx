@@ -26,7 +26,7 @@ export default function AppNavbar() {
   const primaryLinks: Array<{ label: string; href: Route; current?: boolean }> =
     [
       { label: "Home", href: "/" },
-      { label: "Shop All", href: "/search" },
+      { label: "Shop All", href: "/all-products" },
       { label: "Contact", href: "/contact" },
       { label: "About", href: "/about" },
     ];

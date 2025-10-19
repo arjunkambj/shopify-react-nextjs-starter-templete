@@ -1,7 +1,14 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import React, { createContext, useCallback, useContext, useMemo, useOptimistic } from 'react';
+import React, {
+  createContext,
+  startTransition,
+  useCallback,
+  useContext,
+  useMemo,
+  useOptimistic
+} from 'react';
 
 type ProductState = {
   [key: string]: string;
@@ -38,13 +45,17 @@ export function ProductProvider({ children }: { children: React.ReactNode }) {
 
   const updateOption = useCallback((name: string, value: string) => {
     const newState = { [name]: value };
-    setOptimisticState(newState);
+    startTransition(() => {
+      setOptimisticState(newState);
+    });
     return { ...state, ...newState };
   }, [setOptimisticState, state]);
 
   const updateImage = useCallback((index: string) => {
     const newState = { image: index };
-    setOptimisticState(newState);
+    startTransition(() => {
+      setOptimisticState(newState);
+    });
     return { ...state, ...newState };
   }, [setOptimisticState, state]);
 

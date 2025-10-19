@@ -4,13 +4,7 @@ import LoadingDots from "@/components/shared/LoadingDots";
 import Price from "@/components/shared/Price";
 import { DEFAULT_OPTION } from "@/lib/constants";
 import { createUrl } from "@/lib/utils";
-import {
-  Button,
-  Drawer,
-  DrawerBody,
-  DrawerContent,
-  DrawerHeader,
-} from "@heroui/react";
+import { Button, Drawer, DrawerBody, DrawerContent } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import type { Route } from "next";
 import Image from "next/image";
@@ -65,13 +59,9 @@ export default function CartModal() {
       </Button>
       <Drawer isOpen={isOpen} onOpenChange={setIsOpen} placement="right">
         <DrawerContent>
-          {(onClose) => (
+          {() => (
             <>
-              <DrawerHeader className="flex items-center justify-between p-6">
-                <p className="text-lg font-semibold">My Cart</p>
-                <CloseCart onPress={onClose} />
-              </DrawerHeader>
-              <DrawerBody className="p-6 pt-0">
+              <DrawerBody>
                 {!cart || cart.lines.length === 0 ? (
                   <div className="mt-20 flex w-full flex-col items-center justify-center overflow-hidden">
                     <Icon
@@ -116,15 +106,15 @@ export default function CartModal() {
                               key={i}
                               className="flex w-full flex-col border-b border-border"
                             >
-                              <div className="relative flex w-full flex-row justify-between px-1 py-4">
-                                <div className="absolute z-40 -ml-1 -mt-2">
+                              <div className="relative flex  flex-row justify-between px-1 py-4">
+                                <div className="absolute z-40 -ml-3 -mt-3">
                                   <DeleteItemButton
                                     item={item}
                                     optimisticUpdate={updateCartItem}
                                   />
                                 </div>
                                 <div className="flex flex-row">
-                                  <div className="relative h-16 w-16 overflow-hidden rounded-md border border-border bg-secondary">
+                                  <div className="relative h-16 w-16 bg-secondary overflow-hidden rounded-md border border-border">
                                     <Image
                                       className="h-full w-full object-cover"
                                       width={64}
@@ -225,36 +215,24 @@ export default function CartModal() {
   );
 }
 
-function CloseCart({
-  onPress,
-}: {
-  onPress?: () => void;
-}) {
-  return (
-    <Button
-      isIconOnly
-      variant="light"
-      size="sm"
-      onPress={onPress}
-      aria-label="Close cart"
-    >
-      <Icon icon="solar:close-circle-linear" width={20} aria-hidden="true" />
-    </Button>
-  );
-}
-
 function CheckoutButton() {
   const { pending } = useFormStatus();
 
   return (
     <Button
-      className="block w-full rounded-full"
+      fullWidth
+      radius="full"
+      size="lg"
       color="primary"
       type="submit"
       isDisabled={pending}
       isLoading={pending}
     >
-      {pending ? <LoadingDots className="bg-primary-foreground" /> : "Proceed to Checkout"}
+      {pending ? (
+        <LoadingDots className="bg-primary-foreground" />
+      ) : (
+        "Proceed to Checkout"
+      )}
     </Button>
   );
 }

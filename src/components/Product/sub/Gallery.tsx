@@ -4,6 +4,7 @@ import { Icon } from '@iconify/react';
 import { GridTileImage } from '@/components/shared/GridTile';
 import { useProduct, useUpdateURL } from './ProductContext';
 import Image from 'next/image';
+import { Button } from '@heroui/react';
 
 export function Gallery({ images }: { images: { src: string; altText: string }[] }) {
   const { state, updateImage } = useProduct();
@@ -12,9 +13,6 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
 
   const nextImageIndex = imageIndex + 1 < images.length ? imageIndex + 1 : 0;
   const previousImageIndex = imageIndex === 0 ? images.length - 1 : imageIndex - 1;
-
-  const buttonClassName =
-    'h-full px-6 transition-all ease-in-out hover:scale-110 hover:text-foreground flex items-center justify-center';
 
   return (
     <form>
@@ -33,27 +31,33 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
         {images.length > 1 ? (
           <div className="absolute bottom-[15%] flex w-full justify-center">
             <div className="mx-auto flex h-11 items-center rounded-full border border-border bg-background/80 text-muted-foreground backdrop-blur-sm">
-              <button
-                formAction={() => {
+              <Button
+                aria-label="Previous product image"
+                variant="light"
+                isIconOnly
+                radius="full"
+                className="h-full"
+                onPress={() => {
                   const newState = updateImage(previousImageIndex.toString());
                   updateURL(newState);
                 }}
-                aria-label="Previous product image"
-                className={buttonClassName}
               >
                 <Icon icon="solar:alt-arrow-left-linear" width={20} aria-hidden="true" />
-              </button>
+              </Button>
               <div className="mx-1 h-6 w-px bg-border"></div>
-              <button
-                formAction={() => {
+              <Button
+                aria-label="Next product image"
+                variant="light"
+                isIconOnly
+                radius="full"
+                className="h-full"
+                onPress={() => {
                   const newState = updateImage(nextImageIndex.toString());
                   updateURL(newState);
                 }}
-                aria-label="Next product image"
-                className={buttonClassName}
               >
                 <Icon icon="solar:alt-arrow-right-linear" width={20} aria-hidden="true" />
-              </button>
+              </Button>
             </div>
           </div>
         ) : null}
@@ -66,13 +70,16 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
 
             return (
               <li key={image.src} className="h-20 w-20">
-                <button
-                  formAction={() => {
+                <Button
+                  aria-label="Select product image"
+                  variant={isActive ? 'solid' : 'light'}
+                  color={isActive ? 'primary' : 'default'}
+                  radius="md"
+                  className="h-full w-full p-0"
+                  onPress={() => {
                     const newState = updateImage(index.toString());
                     updateURL(newState);
                   }}
-                  aria-label="Select product image"
-                  className="h-full w-full"
                 >
                   <GridTileImage
                     alt={image.altText}
@@ -81,7 +88,7 @@ export function Gallery({ images }: { images: { src: string; altText: string }[]
                     height={80}
                     active={isActive}
                   />
-                </button>
+                </Button>
               </li>
             );
           })}

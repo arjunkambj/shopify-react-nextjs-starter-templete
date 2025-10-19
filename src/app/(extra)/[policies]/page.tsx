@@ -5,10 +5,10 @@ import { getPage } from '@/lib/shopify';
 import { notFound } from 'next/navigation';
 
 export async function generateMetadata(props: {
-  params: Promise<{ page: string }>;
+  params: Promise<{ policies: string }>;
 }): Promise<Metadata> {
   const params = await props.params;
-  const page = await getPage(params.page);
+  const page = await getPage(params.policies);
 
   if (!page) return notFound();
 
@@ -23,9 +23,9 @@ export async function generateMetadata(props: {
   };
 }
 
-export default async function Page(props: { params: Promise<{ page: string }> }) {
+export default async function Page(props: { params: Promise<{ policies: string }> }) {
   const params = await props.params;
-  const page = await getPage(params.page);
+  const page = await getPage(params.policies);
 
   if (!page) return notFound();
 

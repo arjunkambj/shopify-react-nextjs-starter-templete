@@ -1,9 +1,9 @@
 'use client';
 
 import { Icon } from '@iconify/react';
-import clsx from 'clsx';
+import { Button } from '@heroui/react';
 import { addItem } from '@/components/cart/actions';
-import { useProduct } from '@/components/Product/ProductContext';
+import { useProduct } from '@/components/Product/sub/ProductContext';
 import { Product, ProductVariant } from '@/lib/shopify/types';
 import { useActionState } from 'react';
 import { useCart } from './cart-context';
@@ -15,45 +15,50 @@ function SubmitButton({
   availableForSale: boolean;
   selectedVariantId: string | undefined;
 }) {
-  const buttonClasses =
-    'relative flex w-full items-center justify-center rounded-full bg-blue-600 p-4 tracking-wide text-white';
-  const disabledClasses = 'cursor-not-allowed opacity-60 hover:opacity-60';
+  const baseProps = {
+    fullWidth: true,
+    radius: 'full' as const,
+    size: 'lg' as const,
+    variant: 'solid' as const
+  };
+  const addIcon = <Icon icon="heroicons-outline:plus" width={20} aria-hidden="true" />;
 
   if (!availableForSale) {
     return (
-      <button disabled className={clsx(buttonClasses, disabledClasses)}>
+      <Button
+        {...baseProps}
+        color="default"
+        isDisabled
+      >
         Out Of Stock
-      </button>
+      </Button>
     );
   }
 
   if (!selectedVariantId) {
     return (
-      <button
+      <Button
+        {...baseProps}
         aria-label="Please select an option"
-        disabled
-        className={clsx(buttonClasses, disabledClasses)}
+        color="primary"
+        isDisabled
+        startContent={addIcon}
       >
-        <div className="absolute left-0 ml-4">
-          <Icon icon="heroicons-outline:plus" className="h-5" aria-hidden="true" />
-        </div>
         Add To Cart
-      </button>
+      </Button>
     );
   }
 
   return (
-    <button
+    <Button
+      {...baseProps}
       aria-label="Add to cart"
-      className={clsx(buttonClasses, {
-        'hover:opacity-90': true
-      })}
+      type="submit"
+      color="primary"
+      startContent={addIcon}
     >
-      <div className="absolute left-0 ml-4">
-        <Icon icon="heroicons-outline:plus" className="h-5" aria-hidden="true" />
-      </div>
       Add To Cart
-    </button>
+    </Button>
   );
 }
 

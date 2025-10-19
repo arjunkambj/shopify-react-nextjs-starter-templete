@@ -1,8 +1,8 @@
 'use client';
 
-import clsx from 'clsx';
 import { useProduct, useUpdateURL } from './ProductContext';
 import { ProductOption, ProductVariant } from '@/lib/shopify/types';
+import { Button } from '@heroui/react';
 
 type Combination = {
   id: string;
@@ -62,28 +62,21 @@ export function VariantSelector({
             const isActive = state[optionNameLowerCase] === value;
 
             return (
-              <button
-                formAction={() => {
+              <Button
+                key={value}
+                title={`${option.name} ${value}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
+                isDisabled={!isAvailableForSale}
+                color={isActive ? 'primary' : 'default'}
+                variant={isActive ? 'solid' : 'bordered'}
+                radius="full"
+                size="sm"
+                onPress={() => {
                   const newState = updateOption(optionNameLowerCase, value);
                   updateURL(newState);
                 }}
-                key={value}
-                aria-disabled={!isAvailableForSale}
-                disabled={!isAvailableForSale}
-                title={`${option.name} ${value}${!isAvailableForSale ? ' (Out of Stock)' : ''}`}
-                className={clsx(
-                  'flex min-w-[48px] items-center justify-center rounded-full border bg-secondary px-2 py-1 text-sm text-foreground',
-                  {
-                    'cursor-default ring-2 ring-primary': isActive,
-                    'ring-1 ring-transparent transition duration-300 ease-in-out hover:ring-primary':
-                      !isActive && isAvailableForSale,
-                    'relative z-10 cursor-not-allowed overflow-hidden bg-secondary text-muted-foreground ring-1 ring-border before:absolute before:inset-x-0 before:-z-10 before:h-px before:-rotate-45 before:bg-border before:transition-transform':
-                      !isAvailableForSale
-                  }
-                )}
               >
                 {value}
-              </button>
+              </Button>
             );
           })}
         </dd>

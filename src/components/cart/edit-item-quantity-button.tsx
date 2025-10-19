@@ -1,41 +1,38 @@
 'use client';
 
 import { Icon } from '@iconify/react';
-import clsx from 'clsx';
+import { Button } from '@heroui/react';
 import { updateItemQuantity } from '@/components/cart/actions';
 import type { CartItem } from '@/lib/shopify/types';
 import { useActionState } from 'react';
 
 function SubmitButton({ type }: { type: 'plus' | 'minus' }) {
   return (
-    <button
+    <Button
       type="submit"
       aria-label={
         type === 'plus' ? 'Increase item quantity' : 'Reduce item quantity'
       }
-      className={clsx(
-        'ease flex h-full min-w-[36px] max-w-[36px] flex-none items-center justify-center rounded-full p-2 transition-all duration-200 hover:bg-secondary hover:opacity-80',
-        {
-          'ml-auto': type === 'minus'
-        }
-      )}
+      variant="light"
+      size="sm"
+      radius="full"
+      isIconOnly
+      className={type === 'minus' ? 'ml-auto min-w-[36px] max-w-[36px]' : 'min-w-[36px] max-w-[36px]'}
     >
       {type === 'plus' ? (
         <Icon
           icon="solar:add-circle-linear"
           width={16}
-          className="text-foreground"
           aria-hidden="true"
         />
       ) : (
         <Icon
           icon="solar:minus-circle-linear"
           width={16}
-          className="text-foreground"
           aria-hidden="true"
         />
       )}
-    </button>
+    </Button>
   );
 }
 
