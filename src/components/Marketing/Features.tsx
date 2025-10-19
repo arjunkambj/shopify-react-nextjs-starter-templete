@@ -28,26 +28,11 @@ const features = [
 
 export default function Features() {
   return (
-    <section className="py-16 md:py-24">
+    <section className="py-16 md:py-24 ">
       <div className="container mx-auto px-4">
-        <div className="mb-12 text-center">
-          <h2 className="text-3xl font-bold tracking-tight md:text-4xl lg:text-5xl">
-            Why Shop With Us
-          </h2>
-          <p className="mt-4 text-lg text-foreground/70 max-w-2xl mx-auto">
-            We provide the best shopping experience with quality products and
-            excellent service
-          </p>
-        </div>
-
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
           {features.map((feature, index) => (
-            <Card
-              key={index}
-              shadow="sm"
-              isPressable
-              className="border transition-all hover:shadow-lg hover:-translate-y-1 hover:border-primary"
-            >
+            <Card key={index} shadow="none">
               <CardBody className="p-6 text-center gap-3">
                 <div className="mx-auto mb-4 w-fit rounded-full bg-primary/10 p-4">
                   <Icon

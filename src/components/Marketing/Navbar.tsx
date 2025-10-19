@@ -39,15 +39,15 @@ export default function AppNavbar() {
 
   return (
     <Navbar
-      className="w-full border-b backdrop-blur-md bg-background/80 shadow-sm"
+      className="w-full py-2 bg-background"
       classNames={{
-        wrapper: "px-6 py-4",
+        wrapper: "px-12",
       }}
       maxWidth="full"
       position="sticky"
       isBordered
     >
-      <NavbarContent className="hidden gap-4 sm:flex" justify="start">
+      <NavbarContent className="hidden gap-8 sm:flex" justify="start">
         {primaryLinks.map(({ label, href }) => (
           <NavbarItem isActive={isActive(href)} key={label}>
             <Link

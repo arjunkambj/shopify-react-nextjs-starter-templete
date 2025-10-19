@@ -23,10 +23,9 @@ export default function Footer() {
   };
 
   const socialLinks = [
-    { icon: "solar:facebook-linear", href: "/" as Route, label: "Facebook" },
-    { icon: "solar:instagram-linear", href: "/" as Route, label: "Instagram" },
-    { icon: "solar:twitter-linear", href: "/" as Route, label: "Twitter" },
-    { icon: "solar:youtube-linear", href: "/" as Route, label: "YouTube" },
+    { icon: "line-md:twitter-x", href: "/" as Route, label: "X" },
+    { icon: "line-md:instagram", href: "/" as Route, label: "Instagram" },
+    { icon: "line-md:tikt k", href: "/" as Route, label: "TikTok" },
   ];
 
   return (
@@ -46,7 +45,8 @@ export default function Footer() {
               <p className="text-xl font-bold">ACME</p>
             </div>
             <p className="mb-6 max-w-sm text-foreground/70">
-              Your destination for premium quality products. Shop the latest trends with confidence.
+              Your destination for premium quality products. Shop the latest
+              trends with confidence.
             </p>
             <div className="flex gap-3">
               {socialLinks.map((social) => (
@@ -54,7 +54,7 @@ export default function Footer() {
                   key={social.label}
                   href={social.href}
                   aria-label={social.label}
-                  className="flex h-10 w-10 items-center justify-center rounded-lg border bg-background transition-all hover:bg-muted hover:border-primary"
+                  className="justify-center text-foreground/70 transition-colors hover:text-primary"
                 >
                   <Icon icon={social.icon} width={20} />
                 </Link>
@@ -117,10 +117,16 @@ export default function Footer() {
               © {currentYear} ACME. All rights reserved.
             </p>
             <div className="flex gap-6 text-sm">
-              <Link href="/" className="text-foreground/60 hover:text-primary transition-colors">
+              <Link
+                href="/"
+                className="text-foreground/60 hover:text-primary transition-colors"
+              >
                 Privacy Policy
               </Link>
-              <Link href="/" className="text-foreground/60 hover:text-primary transition-colors">
+              <Link
+                href="/"
+                className="text-foreground/60 hover:text-primary transition-colors"
+              >
                 Terms of Service
               </Link>
             </div>

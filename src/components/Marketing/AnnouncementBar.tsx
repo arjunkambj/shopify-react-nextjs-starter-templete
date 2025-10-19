@@ -1,18 +1,22 @@
 "use client";
 
 import { Icon } from "@iconify/react";
+import { Marquee } from "@/components/ui/marquee";
 
 export default function AnnouncementBar() {
   return (
     <div className="bg-primary text-primary-foreground">
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-center gap-2 py-2.5 text-sm">
-          <Icon icon="solar:tag-price-bold-duotone" width={18} />
-          <p className="font-medium">
-            Free shipping on orders over $50 • Limited time offer
-          </p>
-          <Icon icon="solar:tag-price-bold-duotone" width={18} />
-        </div>
+      <div className="w-full mx-auto">
+        <Marquee repeat={6} className="py-2 text-sm font-medium [--duration:20s] [--gap:4rem]">
+          <div className="flex items-center gap-2">
+            <Icon icon="ph:truck-bold" className="h-4 w-4" />
+            <span>Free shipping on orders over $50</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <Icon icon="ph:clock-bold" className="h-4 w-4" />
+            <span>Limited time offer</span>
+          </div>
+        </Marquee>
       </div>
     </div>
   );

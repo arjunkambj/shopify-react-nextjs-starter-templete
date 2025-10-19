@@ -13,12 +13,12 @@ export default function HomePage() {
       <Suspense fallback={<div className="py-16 md:py-24" />}>
         <Collections />
       </Suspense>
-      <Features />
       <Suspense fallback={<div className="h-96" />}>
         <ProductShowcase />
       </Suspense>
       <Testimonials />
       <FAQ />
+      <Features />
     </>
   );
 }

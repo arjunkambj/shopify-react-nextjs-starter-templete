@@ -62,6 +62,7 @@ export default function FAQ() {
           <Accordion selectionMode="multiple">
             {faqs.map((faq) => (
               <AccordionItem
+                className="pt-4"
                 key={faq.id}
                 aria-label={faq.question}
                 title={faq.question}
